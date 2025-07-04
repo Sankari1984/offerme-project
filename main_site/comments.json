@@ -1,0 +1,327 @@
+{
+  "dca7bab3-2bca-4836-b7c6-9817bf5c060a": [
+    {
+      "id": "b52ebaaf-baab-4cd6-a4bd-1d63fa636f37",
+      "comment": "شبشيب",
+      "full_name": "سنادار للمقاولات",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-19T14:39:18.747569"
+    }
+  ],
+  "7a9552a8-bdcc-4bd8-8f62-c399367df3d8": [
+    {
+      "id": "d4185e57-335b-425a-b4e5-f76ce8f2095f",
+      "comment": "بكم",
+      "full_name": "haytham",
+      "profile_image": "/uploads/avatars/viewer_33665466_avatar.png",
+      "timestamp": "2025-06-19T15:21:17.990406"
+    }
+  ],
+  "85c02a1d-5fc8-4cac-b011-daaa5135a9ba": [
+    {
+      "id": "83914e36-f2ec-4d76-a302-fc239bb48138",
+      "comment": "بكم",
+      "full_name": "Offer Me ",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-19T15:28:09.540073"
+    }
+  ],
+  "3c92ba33-efcd-40dd-b80a-5070e8a87eda": [
+    {
+      "id": "491b5645-def1-4186-8705-89e5092df642",
+      "comment": "بكم",
+      "full_name": "زائر",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-19T15:28:37.790228"
+    }
+  ],
+  "a57eaa90-405d-431b-8489-91e4958baaac": [
+    {
+      "id": "781ba804-5fec-490b-b8d6-971d9958e95f",
+      "comment": "هاي",
+      "full_name": "ليلاس للمفروشات",
+      "profile_image": "/uploads/avatars/logos/حازم_logo.jpg",
+      "timestamp": "2025-06-20T21:52:42.854403"
+    }
+  ],
+  "3a5410ad-7ed2-4cdc-a17d-ae031b5a1ec6": [
+    {
+      "id": "9a3c3bc0-8566-4f49-b265-18a63df37503",
+      "comment": "سيبسيبس",
+      "full_name": "ليلاس للمفروشات",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-20T22:41:11.293177"
+    }
+  ],
+  "5d8b4f54-4cc5-43af-a75a-924ba1375b86": [
+    {
+      "id": "3c54d62b-f5dc-4c1d-9dd1-300365cb983a",
+      "comment": "dfgdfg",
+      "full_name": "زائر",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-21T00:38:44.292027"
+    }
+  ],
+  "652fa4b4-0612-408c-b619-b298e88d1e81": [
+    {
+      "id": "8d221912-0da1-41a7-872d-a8ecf0c6a1ab",
+      "comment": "Hi",
+      "full_name": "زائر",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-21T12:20:42.522612"
+    },
+    {
+      "id": "22a11a05-5c52-4634-8bb6-0eaa8cd864e0",
+      "comment": "Hi",
+      "full_name": "زائر",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-21T13:38:16.929171"
+    }
+  ],
+  "56cbdd5a-2d80-4329-82e8-40e773dde2cd": [
+    {
+      "id": "8bae16e1-8a81-4fd6-b6c4-1c887e6eab43",
+      "comment": "Hi",
+      "full_name": "Mhammad Sankari",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-21T12:22:09.273609",
+      "replies": [
+        {
+          "id": "2e387251-087b-4ff7-ae08-f659e7a10eff",
+          "comment": "بكم",
+          "full_name": "زائر",
+          "profile_image": "static/img/default-user.png",
+          "timestamp": "2025-06-21T15:38:01.744855"
+        }
+      ]
+    }
+  ],
+  "a37ac611-fea2-48bd-bacf-4981c37e5a26": [
+    {
+      "id": "82fbc357-0678-4420-bb10-718f34cdcfab",
+      "comment": "Hi",
+      "full_name": "عدنان الحبيب",
+      "profile_image": "/uploads/avatars/logos/عدنان_logo.gif",
+      "timestamp": "2025-06-21T12:27:40.127053"
+    },
+    {
+      "id": "7ebaa314-900b-4332-bdbb-8180dd17c4b5",
+      "comment": "هلا",
+      "full_name": "عدنان الحبيب",
+      "profile_image": "/uploads/avatars/logos/عدنان_logo.jpg",
+      "timestamp": "2025-06-21T12:29:39.750534"
+    }
+  ],
+  "debf0fbb-541c-4e14-a22d-6cd463d9b03f": [
+    {
+      "id": "b96a9c56-8d0d-4190-afb9-bbd7fc31bec2",
+      "comment": "Hi",
+      "full_name": "عدنان الحبيب",
+      "profile_image": "/uploads/avatars/logos/عدنان_logo.jpg",
+      "timestamp": "2025-06-23T05:22:10.911569",
+      "replies": [
+        {
+          "id": "0d9c8617-de56-44ce-b3cd-07a3f069cc89",
+          "comment": "How much",
+          "full_name": "زائر",
+          "profile_image": "static/img/default-user.png",
+          "timestamp": "2025-06-23T05:22:34.801239"
+        }
+      ]
+    }
+  ],
+  "101fa831-a7d4-4542-a3a4-b2a37ac39044": [
+    {
+      "id": "3db79db8-3a29-4d74-a046-b4a04f0a9fc3",
+      "comment": "بكم",
+      "full_name": "Mhammad Sankari",
+      "profile_image": "/static/uploads/avatars/viewer_33665466_avatar.png",
+      "timestamp": "2025-06-23T06:45:17.508326"
+    },
+    {
+      "id": "966dda5a-f52c-4e24-99fc-a3959ba169f6",
+      "comment": "Hi",
+      "full_name": "Elevate Elevators Qatar WLL",
+      "profile_image": "/uploads/avatars/logos/احمد_logo.jpg",
+      "timestamp": "2025-06-24T10:10:07.016894"
+    },
+    {
+      "id": "ec2def79-6f08-491a-88da-1c85c7e0f60f",
+      "comment": "هلا",
+      "full_name": "User",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-27T11:35:29.245125"
+    }
+  ],
+  "cab0ec5a-b958-4864-8ff2-eb4dbcf084e7": [
+    {
+      "id": "4939781a-28d2-41d2-b414-2e1579e61448",
+      "comment": "Hi",
+      "full_name": "haytham sankari",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-24T10:11:25.523841",
+      "replies": [
+        {
+          "id": "af1ed247-9b5f-4e1a-b747-1235aa81b3fd",
+          "comment": "Hi",
+          "full_name": "زائر",
+          "profile_image": "static/img/default-user.png",
+          "timestamp": "2025-06-26T18:28:38.546062"
+        }
+      ]
+    },
+    {
+      "id": "2195d501-d7a3-4506-b2fc-bb0e052d7443",
+      "comment": "Hi",
+      "full_name": "زائر",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-26T18:42:17.648749"
+    }
+  ],
+  "f9a2a351-1eec-457b-a299-a67ee99d3b9d": [
+    {
+      "id": "6b524514-4a30-44ee-9813-1c8ea318ac0c",
+      "comment": "Hi",
+      "full_name": "haytham sankari",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-24T10:46:44.836818"
+    }
+  ],
+  "60a7cea5-ba44-4631-afa4-775ec4812f15": [
+    {
+      "id": "656f6123-d76f-43b5-9107-275d78b14d05",
+      "comment": "Hi",
+      "full_name": "Elevate Elevators Qatar WLL",
+      "profile_image": "/uploads/avatars/logos/احمد_logo.jpg",
+      "timestamp": "2025-06-25T12:02:04.869210",
+      "replies": [
+        {
+          "id": "c14a330e-bc74-49df-ae53-0b7625987752",
+          "comment": "بكم",
+          "full_name": "Elevate Elevators Qatar WLL",
+          "profile_image": "/uploads/avatars/logos/احمد_logo.jpg",
+          "timestamp": "2025-06-25T12:02:12.760246"
+        }
+      ]
+    },
+    {
+      "id": "efca2494-0136-44d1-8eb7-a0b175e1b96c",
+      "comment": "l;laksdjfas",
+      "full_name": "Elevate Elevators Qatar WLL",
+      "profile_image": "/uploads/avatars/logos/احمد_logo.jpg",
+      "timestamp": "2025-06-26T18:16:07.094906"
+    },
+    {
+      "id": "f0ea1691-9840-44b8-b0db-bdc77b0f6658",
+      "comment": "هلا",
+      "full_name": "Elevate Elevators Qatar WLL",
+      "profile_image": "/uploads/avatars/logos/احمد_logo.jpg",
+      "timestamp": "2025-06-26T18:26:19.118065",
+      "replies": [
+        {
+          "id": "126c1506-90ce-46a4-9d41-5593bf50222c",
+          "comment": "مابعرف",
+          "full_name": "Elevate Elevators Qatar WLL",
+          "profile_image": "/uploads/avatars/logos/احمد_logo.jpg",
+          "timestamp": "2025-06-26T18:28:59.384264"
+        }
+      ]
+    },
+    {
+      "id": "5297b7d7-f18e-4818-b70b-10c2d3bee690",
+      "comment": "Ghdhdh",
+      "full_name": "زائر",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-26T18:36:33.740812"
+    }
+  ],
+  "05248145-3998-4798-8402-47b72dc44816": [
+    {
+      "id": "bea5eeeb-8d56-4721-858b-9112fe03e351",
+      "comment": "Hi",
+      "full_name": "زائر",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-26T18:36:23.110831"
+    }
+  ],
+  "68184fc6-847f-4757-8ee8-2eb775068afa": [
+    {
+      "id": "d10d5b71-6e48-407b-a3d5-160319f08c89",
+      "comment": "Rhdndndnd",
+      "full_name": "زائر",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-26T18:42:26.852705"
+    },
+    {
+      "id": "e6f7f538-27c2-4480-b52a-e75c644fc7cf",
+      "comment": "Hdhdhdh",
+      "full_name": "زائر",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-26T18:42:32.140213"
+    },
+    {
+      "id": "288fb2b2-8ea5-4c88-a4a8-ab6220a6cd64",
+      "comment": "رطرطرل",
+      "full_name": "User",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-27T14:48:05.607358"
+    }
+  ],
+  "619ad634-7143-41e4-a643-6aefc16484e4": [
+    {
+      "id": "c11b60fc-9bcb-4785-9f9a-b351411da1b6",
+      "comment": "بكم",
+      "full_name": "زائر",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-26T19:07:00.414176",
+      "replies": [
+        {
+          "id": "0e5d8cfa-c460-4a8e-b4d4-32a07fd925da",
+          "comment": "How much",
+          "full_name": "User",
+          "profile_image": "static/img/default-user.png",
+          "timestamp": "2025-06-26T19:09:31.567216"
+        },
+        {
+          "id": "41d635d6-4f47-4b74-8864-be5102e8943b",
+          "comment": "Hi",
+          "full_name": "User",
+          "profile_image": "static/img/default-user.png",
+          "timestamp": "2025-06-26T19:09:38.480131"
+        }
+      ]
+    },
+    {
+      "id": "832fbe43-bbb9-4926-abf6-5c223cd9e88e",
+      "comment": "Hidjdj",
+      "full_name": "User",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-26T19:09:45.151618"
+    },
+    {
+      "id": "3fc6be12-d212-4250-ba6f-57d3d2807978",
+      "comment": "هاي",
+      "full_name": "زائر",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-29T10:09:52.544329",
+      "replies": [
+        {
+          "id": "197c2226-6db6-48bf-95c6-1968736a1a42",
+          "comment": "هاي",
+          "full_name": "زائر",
+          "profile_image": "static/img/default-user.png",
+          "timestamp": "2025-06-29T10:10:16.308209"
+        }
+      ]
+    }
+  ],
+  "9bbd5a0c-2c5c-441c-8686-b11c931313b2": [
+    {
+      "id": "9413f66e-d6b4-401e-ad3c-1b96d8761724",
+      "comment": "حلو",
+      "full_name": "زائر",
+      "profile_image": "static/img/default-user.png",
+      "timestamp": "2025-06-27T01:52:49.104927"
+    }
+  ]
+}

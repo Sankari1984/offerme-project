@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+  
+
+  <title>🎥 فيديوهات المنتجات</title>
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <!-- ✅ خطوط وستايل -->
+  <link rel="stylesheet" href="/static/css/tiktok.css" />
+  <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+
+  <!-- ✅ مكتبة HLS.js -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+
+
+<div id="welcomeBanner" style="
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  background: linear-gradient(to right, #4da6ff, #2b5876);
+  padding: 6px 10px;
+  border-radius: 0 0 10px 10px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+">
+  👋 مرحباً!
+</div>
+
+
+
+
+  <!-- ✅ عرض الفيديوهات -->
+  <div id="tiktok-container"></div>
+
+ <!-- ✅ فوتر -->
+<footer class="tiktok-footer">
+  <button>🏠</button>
+  <button id="searchByBusinessTypeBtn">🔍</button>
+  <button id="plusButton" class="plus-btn">➕</button>
+  <button onclick="window.location.href='/featured'">⭐</button>
+  <button onclick="window.location.href='/my_profile'">
+  <img src="/static/img/user.png" alt="ملفي" style="width: 35px; height: 35px;">
+</button>
+
+
+</footer>
+
+
+  <!-- ✅ كود التشغيل -->
+ <script src="/static/js/tiktok.js?v=2"></script>
+
+
+
+  <!-- ✅ شاشة تحميل intro تغطي الشاشة بالكامل -->
+<div id="loader" style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+">
+  <img src="/static/img/intro.gif" alt="جار التحميل..." style="
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+  " />
+</div>
+
+<style>
+  video {
+    transition: opacity 0.3s ease;
+  }
+</style>
+
+
+<style>
+.video-logo {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid white;
+  object-fit: cover;
+  background: white;
+  z-index: 100;
+}
+</style>
+
+<script>
+  // التحقق من تسجيل الدخول
+  const userId = localStorage.getItem("user_id");
+  const fullName = localStorage.getItem("full_name");
+  const phone = localStorage.getItem("phone");
+
+  if (!userId || !fullName || !phone) {
+    // إذا لم يتم تسجيل الدخول، إعادة التوجيه
+    window.location.href = "viewer_login";
+  }
+</script>
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const fullName = localStorage.getItem("full_name") || "زائر";
+  const banner = document.getElementById("welcomeBanner");
+
+  if (banner) {
+    banner.textContent = `👋 مرحباً ${fullName}`;
+    banner.style.opacity = "1";
+    banner.style.transform = "translateY(0)";
+
+    // ❌ إخفاء بعد 3 ثواني
+    setTimeout(() => {
+      banner.style.opacity = "0";
+      banner.style.transform = "translateY(-100%)";
+    }, 3000);
+  }
+});
+</script>
+
+
+</body>
+</html>

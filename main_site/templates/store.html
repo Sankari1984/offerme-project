@@ -1,0 +1,457 @@
+
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>متجر العروض</title>
+
+
+
+  <script src="https://unpkg.com/i18next@23.4.6/i18next.min.js"></script>
+  <script src="https://unpkg.com/i18next-http-backend@2.2.1/i18nextHttpBackend.min.js"></script>
+  <script src="/static/js/lang.js"></script>
+  <script src="/static/js/store.js"></script>
+  <link rel="stylesheet" href="/static/css/store.css" />
+  <link rel="manifest" href="/static/manifest.json">
+  <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<style>
+  #progressBar {
+    display: flex;
+    flex-direction: row-reverse; /* ✅ خلي المؤشر يبدأ من اليسار */
+    gap: 4px;
+    padding: 10px;
+    justify-content: center;
+  }
+
+  #progressBar div {
+    width: 8px;
+    height: 8px;
+    background-color: #aaa;
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  #progressBar div.active {
+    background-color: #fff;
+    opacity: 1;
+  }
+</style>
+
+</head>
+<body>
+
+<!-- ✅ شريط الأزرار الأفقي أعلى الشاشة -->
+<div id="socialBar">
+  <div class="socialIcon" onclick="openStories()">
+    <img src="/static/img/drip.gif" alt="القصص" class="drip-img" />
+  </div>
+
+  <div class="socialIcon" onclick="window.open('https://www.instagram.com/lana_couture_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==', '_blank')">
+    <img src="/static/img/instagram.png" alt="Instagram" class="drip-img" />
+  </div>
+
+  <div class="socialIcon" onclick="window.open('https://www.facebook.com/profile.php?id=61552958311412', '_blank')">
+    <img src="/static/img/facebook.png" alt="Facebook" class="drip-img" />
+  </div>
+
+  <div class="socialIcon" onclick="window.open('https://www.tiktok.com/@USERNAME', '_blank')">
+    <img src="/static/img/tiktok.png" alt="TikTok" class="drip-img" />
+  </div>
+
+  <!-- 🌐 زر الموقع الإلكتروني -->
+  <div class="socialIcon" onclick="window.open('https://yourwebsite.com', '_blank')">
+    <img src="/static/img/website.png" alt="الموقع" class="drip-img" />
+  </div>
+
+  <!-- 📍 زر اللوكيشن (Google Maps أو أي رابط خريطة) -->
+  <div class="socialIcon" onclick="window.open('https://maps.google.com/?q=Doha,+Qatar', '_blank')">
+    <img src="/static/img/location.gif" alt="الموقع الجغرافي" class="drip-img" />
+  </div>
+</div>
+
+
+<!-- ✅ واجهة عرض القصص -->
+<div id="storyOverlay" style="display: none;">
+  <div class="story-header" id="progressBar"></div>
+  <video id="storyVideo" playsinline muted autoplay></video>
+
+  <!-- ✅ زر الإجراء (يتم توليده ديناميكيًا) -->
+  <button id="storyActionButton" class="animated-btn"></button>
+
+  <!-- ✅ زر الإغلاق -->
+  <button onclick="closeStories()" style="
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 28px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 99999;
+  ">×</button>
+</div>
+
+
+<header class="modern-header" style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
+  <!-- يسار: الشعار -->
+ <img id="storeLogo" class="store-logo-small" src="" alt="🔶" style="height: 60px; max-width: 60px; display: none;" />
+
+  <!-- وسط: اسم المتجر -->
+  <div id="storeOwnerDisplay" style="flex: 1; text-align: center; font-weight: bold; font-size: 18px;"></div>
+
+  <!-- يمين: الأزرار -->
+  <div class="header-left-buttons" style="display: flex; gap: 10px;">
+    <button onclick="requestNotificationPermission()" class="btn">🔔 الإشعارات</button>
+    <button onclick="goToAllProducts()" class="btn">🏭 المنتجات</button>
+  </div>
+</header>
+
+  <div id="notificationBar" data-i18n="new_product_added" style="display:none; background:#fff3cd; color:#856404; padding:10px; text-align:center; font-weight:bold; border-bottom:1px solid #ffeeba">
+    📣 إشعار: تمت إضافة منتج جديد!
+  </div>
+
+
+  <div class="category-tabs" id="tabsContainer"></div>
+  <main class="products-grid" id="productsContainer" style="margin-top: 80px;"></main>
+
+
+  <footer class="bottom-nav">
+    <button onclick="goToUpload()">
+      ➕<span>رفع</span>
+    </button>
+    <!-- ✅ زر خاص لرفع المنتج الذهبي، يظهر فقط للمشرف -->
+    <button id="goldenProductBtn" style="display: none;" onclick="window.location.href='/upload_golden.html'">
+   🌟<span>ذهبي</span>
+    </button>
+
+    <button onclick="openServiceRequestForm()">
+      📩<span>خدمة</span>
+    </button>
+    <button onclick="goToManageTabs()">
+      ⚙️<span>إدارة</span>
+    </button>
+    <button onclick="window.location.href='notifications.html'" style="position: relative;">
+      🔔<span>تعليقات</span>
+      <span id="commentCountBadge" style="position: absolute; top: -2px; right: -2px; background: red; color: white; border-radius: 50%; padding: 2px 5px; font-size: 10px; display: none;">0</span>
+    </button>
+
+
+<!-- ✅ فوتر الزائر - يظهر فقط إذا كان المستخدم زائر -->
+
+
+
+  <div id="mediaModal" onclick="if(event.target.id==='mediaModal') closeMediaModal()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:9999;">
+    <div id="mediaContent" style="width: 100%; text-align: center;"></div>
+  </div>
+
+  <!-- Bottom Sheet + Overlay -->
+    <div id="serviceRequestModal" class="bottom-sheet">
+    <div class="sheet-content">
+      <div class="drag-icon"></div>
+      <h3 data-i18n="marketing_service_request">طلب خدمة تسويقية</h3>
+      <select id="serviceType">
+        <option value="">اختر نوع الخدمة</option>
+        <option value="تصميم بوست">🖼️ تصميم بوست</option>
+        <option value="كتابة محتوى">✍️ كتابة محتوى</option>
+        <option value="إدارة حملة">📣 إدارة حملة</option>
+        <option value="تصوير فيديو أو صور">🎥 تصوير</option>
+        <option value="غير ذلك">❓ غير ذلك</option>
+      </select>
+      <textarea id="serviceDescription" placeholder="اكتب تفاصيل الطلب هنا..."></textarea>
+      <button id="sendButton" onclick="submitServiceRequest()">
+        <span id="sendText">📨 إرسال الطلب</span>
+        <span id="spinner" class="spinner" style="display: none;"></span>
+      </button>
+      <button class="cancel-btn" onclick="closeServiceRequestForm()">❌ إغلاق</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="modalOverlay" onclick="closeServiceRequestForm()"></div>
+
+  <div id="commentPopup" class="popup" style="display:none;">
+    <div class="popup-content">
+      <h3>💬 التعليقات</h3>
+      <div id="commentsList"></div>
+      <textarea id="newComment" placeholder="💬 أضف تعليقك"></textarea>
+      <button onclick="submitPopupComment()">💬 إرسال</button>
+      <button onclick="closePopup()">❌ إغلاق</button>
+    </div>
+  </div>
+
+
+
+
+  <script>
+    function goToAllProducts() {
+      const userId = (localStorage.getItem('user_id') || '').trim().toLowerCase();
+      if (userId) {
+        window.location.href = `/all_products?from_user=${userId}`;
+      } else {
+        window.location.href = "/all_products";
+      }
+    }
+  </script>
+
+  <script>
+    document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
+    document.addEventListener('gesturechange', function (e) { e.preventDefault(); });
+    document.addEventListener('gestureend', function (e) { e.preventDefault(); });
+  </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const adminId = "admin";
+    const currentUser = (localStorage.getItem("user_id") || "").trim();
+
+    if (currentUser === adminId) {
+      const goldenBtn = document.getElementById("goldenProductBtn");
+      if (goldenBtn) {
+        goldenBtn.style.display = "inline-block";
+        console.log("✅ زر الذهبي ظهر للمشرف");
+      } else {
+        console.log("❌ لم يتم العثور على زر goldenProductBtn");
+      }
+    } else {
+      console.log("🟡 المستخدم ليس أدمن:", currentUser);
+    }
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentUser = (localStorage.getItem("user_id") || "").trim().toLowerCase();
+    const visitingUser = (urlParams.get("user_id") || "").trim().toLowerCase();
+    const highlightId = urlParams.get("highlight") || "";
+    const isVisitor = visitingUser && visitingUser !== currentUser;
+
+    // ✅ إذا كان زائر أو جاء من all_products بالهايلايت
+    if (highlightId || isVisitor) {
+      const visitorFooter = document.getElementById("footer-visitor");
+      if (visitorFooter) visitorFooter.style.display = "flex";
+    }
+
+
+
+
+  });
+
+  // ✅ دوال أزرار فوتر الزائر فقط
+  function goHome() {
+    window.location.href = "/";
+  }
+
+  function goToAllProducts() {
+    window.location.href = "/all_products";
+  }
+
+  function goToAllStories() {
+    window.location.href = "/all_stories";
+  }
+
+  function openUserRegistration() {
+    window.location.href = "/user-register";
+  }
+</script>
+
+<script>
+ function goToUpload() {
+  window.location.href = `${window.location.origin}/upload-new.html`;
+}
+</script>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<script>
+  const storyVideo = document.getElementById("storyVideo");
+  const overlay = document.getElementById("storyOverlay");
+  overlay.dataset.shouldOpen = "no";
+
+ 
+  const videos = [];
+  let currentIndex = 0;
+
+ function loadUserVideos() {
+  fetch("/products_data.json")
+    .then(res => res.json())
+    .then(products => {
+      videos.length = 0;
+      const urlParams = new URLSearchParams(window.location.search);
+      const currentUser = (localStorage.getItem("user_id") || "").trim().toLowerCase();
+      const visitingUser = (urlParams.get("user_id") || "").trim().toLowerCase();
+
+      const userId = visitingUser || currentUser; // ✅ اختر الزائر إن وُجد، وإلا خذ من localStorage
+
+      products.forEach(p => {
+        const url = p.url || "";
+        const owner = (p.user_id || "").trim().toLowerCase();
+        if (url.endsWith(".m3u8") && owner === userId) {
+          videos.unshift(url); // 🟡 الأحدث أولاً
+        }
+      });
+
+      if (overlay.dataset.shouldOpen === "yes" && videos.length > 0) {
+        overlay.style.display = "flex";
+        showVideo(0);
+      }
+
+    })
+    .catch(err => {
+      console.error("❌ فشل تحميل فيديوهات الزبون:", err);
+    });
+}
+
+fetch("/api/tiktok-products-full")
+  .then(res => res.json())
+  .then(data => {
+    window.products = data;
+    console.log("✅ تم تحميل window.products:", window.products);
+  });
+
+
+ function showVideo(index) {
+  if (index < 0 || index >= videos.length) return;
+  currentIndex = index;
+  updateProgressBar();
+
+  const videoUrl = videos[index];
+  storyVideo.pause();
+  storyVideo.innerHTML = "";
+
+  if (Hls.isSupported() && videoUrl.endsWith(".m3u8")) {
+    const hls = new Hls();
+    hls.loadSource(videoUrl);
+    hls.attachMedia(storyVideo);
+  } else {
+    storyVideo.src = videoUrl;
+  }
+
+  storyVideo.muted = false;
+  storyVideo.play().catch(err => console.warn("⚠️ لم يُشغل الفيديو:", err));
+
+  const btn = document.getElementById("storyActionButton");
+  btn.style.display = "none";
+
+
+  // ✅ ابحث عن نفس المنتج من window.products
+  const product = (window.products || []).find(p => (p.url || "").includes(videoUrl));
+  if (!product) return;
+
+
+  // ✅ جلب رقم الواتساب إذا المنتج من زبون
+  fetch(`/user-settings/${product.user_id}`)
+  .then(res => res.ok ? res.json() : null)
+  .then(settings => {
+    const whatsapp = (settings?.whatsapp || "").trim();
+    const affiliate = (product.affiliate || "").trim();
+
+
+btn.classList.remove("show");
+btn.style.display = "none"; // نحذف أي عرض سابق
+btn.innerHTML = "";
+
+if (affiliate) {
+  btn.innerHTML = `<img src="/static/img/aliexpress.png" style="width: 36px; height: 36px;"> شراء المنتج`;
+  btn.onclick = () => window.open(affiliate, "_blank");
+
+  // ✅ عرض الزر بعد تأخير بسيط مع الكلاس
+  setTimeout(() => {
+    btn.style.display = "flex";
+    setTimeout(() => btn.classList.add("show"), 10);
+  }, 50);
+
+} else if (whatsapp) {
+  btn.innerHTML = `<img src="/static/img/whatsapp.png" style="width: 36px; height: 36px;"> تواصل واتساب`;
+  btn.onclick = () => window.open("https://wa.me/" + whatsapp, "_blank");
+
+  setTimeout(() => {
+    btn.style.display = "flex";
+    setTimeout(() => btn.classList.add("show"), 10);
+  }, 50);
+} else {
+  btn.classList.remove("show");
+  setTimeout(() => { btn.style.display = "none"; }, 500);
+}
+
+
+
+
+  })
+  .catch(err => {
+    console.warn("❌ فشل جلب إعدادات الزبون:", err);
+    btn.style.display = "none";
+  });
+}
+
+
+
+
+  function updateProgressBar() {
+  const bar = document.getElementById("progressBar");
+  bar.innerHTML = "";
+  for (let i = 0; i < videos.length; i++) {
+    const step = document.createElement("div");
+    if (i === currentIndex) step.classList.add("active");
+    bar.appendChild(step);
+  }
+}
+
+ window.openStories = function () {
+  if (videos.length === 0) {
+    overlay.dataset.shouldOpen = "yes"; // ✅ نفتح بعد التحميل
+    alert("⏳ جارٍ تحميل الفيديوهات... الرجاء الانتظار لحظة");
+    return;
+  }
+  overlay.style.display = "flex";
+  showVideo(0);
+}
+
+
+
+  function closeStories() {
+    overlay.style.display = "none";
+    storyVideo.pause();
+  }
+
+overlay.addEventListener("click", (e) => {
+  const half = window.innerWidth / 2;
+  if (e.clientX > half) {
+    // كبسة على اليمين → يتقدم (للأقدم)
+    showVideo(currentIndex + 1);
+  } else {
+    // كبسة على اليسار → يرجع للأحدث
+    showVideo(currentIndex - 1);
+  }
+});
+
+
+
+  // ✅ تحميل الفيديوهات فوراً
+  document.addEventListener("DOMContentLoaded", loadUserVideos);
+</script>
+
+
+
+
+
+
+
+</body>
+</html>

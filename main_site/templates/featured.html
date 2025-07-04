@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>⭐ المنتجات المميزة</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    font-family: 'Segoe UI', sans-serif;
+    background: black;
+    color: white;
+    touch-action: none;
+    overscroll-behavior: none;
+  }
+
+  .slide {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    z-index: 1;
+    padding-top: 40px;
+  }
+
+  .slide.active {
+    display: flex;
+  }
+
+  .slide video, .slide img {
+    width: 100%;
+    height: auto;
+    max-height: 65vh;
+    object-fit: contain;
+    border-radius: 0;
+    pointer-events: auto;
+    user-select: none;
+    touch-action: manipulation;
+  }
+
+  .info-box {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.65);
+    border-radius: 12px;
+    padding: 12px 16px;
+    width: calc(100% - 40px);
+    max-width: 600px;
+    z-index: 6;
+    text-align: right;
+  }
+
+  .info-box h2 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    color: #fff;
+    position: relative;
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 100px;
+    height: 100px;
+    background: url('static/img/star.gif') no-repeat center center;
+    background-size: contain;
+  }
+
+.info-box p {
+  font-size: 14px;
+  color: #ccc;
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.info-box.expanded p {
+  max-height: 200px;
+}
+
+
+  .toggle-btn {
+    margin-top: 6px;
+    background: none;
+    border: none;
+    color: #4da6ff;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: right;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 20px;
+    z-index: 10;
+    box-sizing: border-box;
+  }
+
+  .cta-btn, .back-btn {
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    white-space: nowrap;
+    min-width: 100px;
+    text-align: center;
+  }
+
+  .cta-btn {
+    background-color: #28a745;
+  }
+
+  .back-btn {
+    background-color: #007bff;
+  }
+
+  #clickArea {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 160px;
+    z-index: 5;
+    display: flex;
+  }
+
+  .click-zone {
+    flex: 1;
+    cursor: pointer;
+  }
+
+  #swipeTip {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.1);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    z-index: 999;
+  }
+</style>
+
+<script>
+  function toggleDescription(button) {
+    const infoBox = button.closest('.info-box');
+    infoBox.classList.toggle('expanded');
+    button.textContent = infoBox.classList.contains('expanded') ? 'إخفاء' : 'قراءة المزيد';
+  }
+</script>
+</head>
+<body>
+
+<div id="swipeTip">👈 اضغط يمين أو يسار للتنقل</div>
+<div id="slider"></div>
+
+<div id="clickArea">
+  <div class="click-zone click-zone-left" onclick="prevSlide()"></div>
+  <div class="click-zone click-zone-right" onclick="nextSlide()"></div>
+</div>
+
+<div class="footer">
+  <a class="back-btn" href="/store.html" onclick="event.preventDefault(); history.back();">⬅️ رجوع</a>
+  <a id="cta" class="cta-btn" href="#" target="_blank">📲 تواصل الآن</a>
+</div>
+
+<script>
+let currentIndex = 0;
+let slides = [];
+
+function showSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.classList.remove("active");
+    const video = slide.querySelector("video");
+    if (video) video.pause();
+  });
+
+  const current = slides[index];
+  if (current) {
+    current.classList.add("active");
+    const video = current.querySelector("video");
+    if (video) {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
+
+    const cta = document.getElementById("cta");
+    const affiliate = current.dataset.affiliate;
+    const whatsapp = current.dataset.whatsapp;
+    if (affiliate && affiliate !== "") {
+      cta.textContent = "🛒 شراء المنتج";
+      cta.href = affiliate;
+    } else {
+      cta.textContent = "📲 تواصل الآن";
+      cta.href = whatsapp;
+    }
+  }
+}
+
+function nextSlide() {
+  if (currentIndex < slides.length - 1) {
+    currentIndex++;
+    showSlide(currentIndex);
+  }
+}
+
+function prevSlide() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    showSlide(currentIndex);
+  }
+}
+
+fetch("/products_data.json")
+  .then(res => res.json())
+  .then(products => {
+    const container = document.getElementById("slider");
+    const featured = products.filter(p => p.featured);
+
+    featured.forEach(p => {
+      const slide = document.createElement("div");
+      slide.className = "slide";
+      slide.dataset.affiliate = p.affiliate || "";
+      slide.dataset.whatsapp = `https://wa.me/974${p.phone || ''}`;
+
+      let media;
+      if (p.type === 'video') {
+        media = document.createElement("video");
+        media.muted = false;
+        media.controls = false;
+        media.autoplay = true;
+        media.playsInline = true;
+
+        if (Hls.isSupported() && p.url.endsWith(".m3u8")) {
+          const hls = new Hls();
+          hls.loadSource(p.url);
+          hls.attachMedia(media);
+        } else {
+          media.src = p.url;
+        }
+      } else {
+        media = document.createElement("img");
+        media.src = p.poster || p.url;
+      }
+
+      const info = document.createElement("div");
+      info.className = "info-box";
+      info.innerHTML = `
+        <h2>${p.name} ${p.featured ? '<span class="featured-badge"></span>' : ''}</h2>
+        <div class="description-container">
+          <p>${p.description}</p>
+          <button class="toggle-btn" onclick="toggleDescription(this)">قراءة المزيد</button>
+        </div>
+      `;
+
+      slide.appendChild(media);
+      slide.appendChild(info);
+      container.appendChild(slide);
+      slides.push(slide);
+    });
+
+    if (slides.length > 0) showSlide(0);
+  });
+</script>
+
+</body>
+</html>

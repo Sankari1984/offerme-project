@@ -1,0 +1,125 @@
+[2025-06-21 11:11:48 +0000] [761800] [INFO] Starting gunicorn 23.0.0
+[2025-06-21 11:11:48 +0000] [761800] [INFO] Listening at: http://127.0.0.1:5000 (761800)
+[2025-06-21 11:11:48 +0000] [761800] [INFO] Using worker: sync
+[2025-06-21 11:11:48 +0000] [761802] [INFO] Booting worker with pid: 761802
+[2025-06-21 11:11:48 +0000] [761803] [INFO] Booting worker with pid: 761803
+[2025-06-21 11:11:48 +0000] [761804] [INFO] Booting worker with pid: 761804
+[2025-06-21 11:11:48 +0000] [761806] [INFO] Booting worker with pid: 761806
+[2025-06-21 11:15:06 +0000] [763999] [INFO] Starting gunicorn 23.0.0
+[2025-06-21 11:15:06 +0000] [763999] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:15:06 +0000] [763999] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:15:07 +0000] [763999] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:15:07 +0000] [763999] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:15:08 +0000] [763999] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:15:08 +0000] [763999] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:15:09 +0000] [763999] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:15:09 +0000] [763999] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:15:10 +0000] [763999] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:15:10 +0000] [763999] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:15:11 +0000] [763999] [ERROR] Can't connect to ('127.0.0.1', 5000)
+[2025-06-21 11:26:48 +0000] [770131] [INFO] Starting gunicorn 23.0.0
+[2025-06-21 11:26:48 +0000] [770131] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:26:48 +0000] [770131] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:26:49 +0000] [770131] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:26:49 +0000] [770131] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:26:50 +0000] [770131] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:26:50 +0000] [770131] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:26:51 +0000] [770131] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:26:51 +0000] [770131] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:26:52 +0000] [770131] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:26:52 +0000] [770131] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:26:53 +0000] [770131] [ERROR] Can't connect to ('127.0.0.1', 5000)
+[2025-06-21 11:48:57 +0000] [781512] [INFO] Starting gunicorn 23.0.0
+[2025-06-21 11:48:57 +0000] [781512] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:48:57 +0000] [781512] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:48:58 +0000] [781512] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:48:58 +0000] [781512] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:48:59 +0000] [781512] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:48:59 +0000] [781512] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:49:00 +0000] [781512] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:49:00 +0000] [781512] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:49:01 +0000] [781512] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 11:49:01 +0000] [781512] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 11:49:02 +0000] [781512] [ERROR] Can't connect to ('127.0.0.1', 5000)
+[2025-06-21 12:06:20 +0000] [789895] [INFO] Starting gunicorn 23.0.0
+[2025-06-21 12:06:20 +0000] [789895] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 12:06:20 +0000] [789895] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 12:06:21 +0000] [789895] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 12:06:21 +0000] [789895] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 12:06:22 +0000] [789895] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 12:06:22 +0000] [789895] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 12:06:23 +0000] [789895] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 12:06:23 +0000] [789895] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 12:06:24 +0000] [789895] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2025-06-21 12:06:24 +0000] [789895] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2025-06-21 12:06:25 +0000] [789895] [ERROR] Can't connect to ('127.0.0.1', 5000)
+[2025-06-21 12:16:51 +0000] [761802] [INFO] Worker exiting (pid: 761802)
+📍 FFmpeg absolute path: /root/OfferMEProject/main_site/bin/ffmpeg.exe
+🔑 مفتاح OpenRouter: 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
+📦 عدد المنتجات النهائي: 20
+📦 عدد المنتجات النهائي: 20
+📦 عدد المنتجات النهائي: 20
+[2025-06-21 12:16:51 +0000] [761800] [INFO] Handling signal: term
+[2025-06-21 12:16:51 +0000] [761803] [INFO] Worker exiting (pid: 761803)
+📍 FFmpeg absolute path: /root/OfferMEProject/main_site/bin/ffmpeg.exe
+🔑 مفتاح OpenRouter: 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
+📦 عدد المنتجات النهائي: 20
+📦 عدد المنتجات النهائي: 20
+📦 عدد المنتجات النهائي: 20
+[2025-06-21 12:16:51 +0000] [761804] [INFO] Worker exiting (pid: 761804)
+📍 FFmpeg absolute path: /root/OfferMEProject/main_site/bin/ffmpeg.exe
+🔑 مفتاح OpenRouter: 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
+📦 عدد المنتجات النهائي: 20
+📦 عدد المنتجات النهائي: 20
+📦 عدد المنتجات النهائي: 20
+[2025-06-21 12:16:51 +0000] [761806] [INFO] Worker exiting (pid: 761806)
+📍 FFmpeg absolute path: /root/OfferMEProject/main_site/bin/ffmpeg.exe
+🔑 مفتاح OpenRouter: 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
+📦 عدد المنتجات النهائي: 20
+📦 عدد المنتجات النهائي: 20
+📦 عدد المنتجات النهائي: 20
+📦 عدد المنتجات النهائي: 20
+[2025-06-21 12:16:51 +0000] [761800] [ERROR] Worker (pid:761803) was sent SIGTERM!
+[2025-06-21 12:16:51 +0000] [761800] [ERROR] Worker (pid:761802) was sent SIGTERM!
+[2025-06-21 12:16:51 +0000] [761800] [INFO] Shutting down: Master
+[2025-06-21 12:16:56 +0000] [794410] [INFO] Starting gunicorn 23.0.0
+[2025-06-21 12:16:56 +0000] [794410] [INFO] Listening at: http://127.0.0.1:5000 (794410)
+[2025-06-21 12:16:56 +0000] [794410] [INFO] Using worker: sync
+[2025-06-21 12:16:56 +0000] [794418] [INFO] Booting worker with pid: 794418
+[2025-06-21 12:16:56 +0000] [794419] [INFO] Booting worker with pid: 794419
+[2025-06-21 12:16:56 +0000] [794420] [INFO] Booting worker with pid: 794420
+[2025-06-21 12:16:56 +0000] [794421] [INFO] Booting worker with pid: 794421
+[2025-06-21 19:52:02 +0000] [794410] [ERROR] Worker (pid:794418) was sent SIGHUP!
+[2025-06-21 19:52:02 +0000] [794410] [ERROR] Worker (pid:794421) was sent SIGHUP!
+[2025-06-21 19:52:02 +0000] [794410] [ERROR] Worker (pid:794420) was sent SIGHUP!
+[2025-06-21 19:52:02 +0000] [794410] [ERROR] Worker (pid:794419) was sent SIGHUP!
+[2025-06-21 19:52:03 +0000] [974014] [INFO] Booting worker with pid: 974014
+[2025-06-21 19:52:03 +0000] [974021] [INFO] Booting worker with pid: 974021
+[2025-06-21 19:52:03 +0000] [974066] [INFO] Booting worker with pid: 974066
+[2025-06-21 19:52:03 +0000] [974039] [INFO] Booting worker with pid: 974039
+[2025-06-21 19:52:03 +0000] [794410] [INFO] Handling signal: hup
+[2025-06-21 19:52:03 +0000] [794410] [INFO] Hang up: Master
+[2025-06-21 19:52:03 +0000] [974090] [INFO] Booting worker with pid: 974090
+[2025-06-21 19:52:03 +0000] [794410] [INFO] Handling signal: term
+[2025-06-21 19:52:03 +0000] [974091] [INFO] Booting worker with pid: 974091
+[2025-06-21 19:52:03 +0000] [974092] [INFO] Booting worker with pid: 974092
+[2025-06-21 19:52:03 +0000] [974093] [INFO] Booting worker with pid: 974093
+[2025-06-21 19:52:08 +0000] [974091] [INFO] Worker exiting (pid: 974091)
+📍 FFmpeg absolute path: /root/OfferMEProject/main_site/bin/ffmpeg.exe
+🔑 مفتاح OpenRouter: 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
+[2025-06-21 19:52:08 +0000] [974090] [INFO] Worker exiting (pid: 974090)
+📍 FFmpeg absolute path: /root/OfferMEProject/main_site/bin/ffmpeg.exe
+🔑 مفتاح OpenRouter: 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
+[2025-06-21 19:52:08 +0000] [974014] [INFO] Worker exiting (pid: 974014)
+📍 FFmpeg absolute path: /root/OfferMEProject/main_site/bin/ffmpeg.exe
+🔑 مفتاح OpenRouter: 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
+[2025-06-21 19:52:08 +0000] [974021] [INFO] Worker exiting (pid: 974021)
+📍 FFmpeg absolute path: /root/OfferMEProject/main_site/bin/ffmpeg.exe
+🔑 مفتاح OpenRouter: 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
+[2025-06-21 19:52:08 +0000] [974066] [INFO] Worker exiting (pid: 974066)
+📍 FFmpeg absolute path: /root/OfferMEProject/main_site/bin/ffmpeg.exe
+🔑 مفتاح OpenRouter: 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
+[2025-06-21 19:52:08 +0000] [974039] [INFO] Worker exiting (pid: 974039)
+📍 FFmpeg absolute path: /root/OfferMEProject/main_site/bin/ffmpeg.exe
+🔑 مفتاح OpenRouter: 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
+[2025-06-21 19:52:33 +0000] [794410] [INFO] Shutting down: Master

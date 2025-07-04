@@ -1,0 +1,463 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  background: black;
+  overflow-x: hidden;
+  font-family: 'Almarai', Arial, sans-serif;
+  height: 100%;
+  overscroll-behavior-y: contain;
+}
+
+#tiktok-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tiktok-slide {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  scroll-snap-align: start;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.main-media {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  background-color: black;
+  position: relative;
+  transform: translateY(-5vh); /* ✅ يرفع الفيديو للأعلى قليلاً */
+}
+
+
+
+
+
+
+
+
+/* ✅ زر تشغيل يدوي */
+.manual-play-btn {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  z-index: 999;
+}
+
+.video-overlay {
+  position: absolute;
+  bottom: 250px;
+  left: 15px;
+  max-width: 75%;
+  padding: 0; /* إزالة التوسيع */
+  font-size: 15px;
+  color: #ffffff;
+  font-weight: 500;
+  line-height: 1.7;
+  z-index: 1001;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); /* ممكن تبقيه للتباين */
+  text-align: left;
+  direction: rtl;
+  animation: fadeInUp 0.7s ease-out both;
+
+  /* إزالة كل هذه التأثيرات */
+  background: none;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.owner-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #ccc;
+  margin-bottom: 4px;
+  direction: rtl;
+}
+
+.product-fullname {
+  font-size: 20px;
+  font-weight: bold;
+  color: #4da6ff; /* لون أزرق هادئ */
+  margin-bottom: 5px;
+}
+
+
+.buy-now-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 8px 16px;
+  background-color: #28a745;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.icon-img {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  filter: brightness(0) invert(1); /* يجعل الأسود أبيض */
+}
+
+
+
+
+
+
+.expand-btn {
+  position: absolute;
+  bottom: 200px;
+  left: 20px;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 1002;
+  display: block;
+
+}
+
+.product-title {
+  font-weight: 900;
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.35);  /* ✅ خلفية شفافة */
+  border-radius: 8px;
+  padding: 4px 8px;
+  display: inline-block;            /* الخلفية على حجم النص فقط */
+}
+
+
+/* الحالة العامة - وصف كامل */
+.product-description {
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 8px;
+  padding: 4px 8px;
+  line-height: 1.5em;
+  max-height: 1.5em; /* سطر واحد */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+
+.like-toggle span {
+  font-size: 30px !important;
+  line-height: 1 !important;
+  display: block !important;
+  color: white;
+}s
+
+/* ✅ أزرار التفاعل الجانبية */
+.tiktok-slide {
+  position: relative; /* ضروري لكي تعمل position: absolute داخلها */
+}
+
+.actions {
+  position: absolute;
+  top: 45%;
+  right: 10px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10;
+}
+
+.action-btn img {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ✅ فوتر سفلي ثابت */
+.tiktok-footer,
+.global-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 70px;
+  background: #111;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 999;
+  border-top: 1px solid #444;
+}
+
+.tiktok-footer button,
+.global-footer .footer-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.plus-btn {
+  background: white;
+  color: black;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 24px;
+  margin-top: -20px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}
+.video-logo {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  z-index: 10;
+  box-shadow: 0 0 6px rgba(0,0,0,0.4);
+}
+.visit-store-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 1002;
+  padding: 8px 14px;
+  font-size: 14px;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+}
+
+.visit-store-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+#dripIcon {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+
+.drip-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
+
+.mini-logo {
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  object-position: center;
+  border: 2px solid white;
+  display: block;
+  margin: 0 auto 4px auto;
+  padding: 0;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+
+.main-media.shift-up {
+  margin-top: -100px; /* 🔼 يرفع الفيديو شوي */
+}
+
+.comments-sheet {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  height: 85vh;
+  background: #fff;
+  z-index: 9999;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  transition: bottom 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  box-sizing: border-box;
+  direction: rtl;
+  
+}
+
+.comments-sheet.show {
+  bottom: 0;
+}
+
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.comments-list {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 14px;
+  color: #444;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  line-height: 1.6;
+  text-align: right;
+}
+
+#newComment {
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  resize: none;
+  box-sizing: border-box;
+  direction: rtl;
+}
+
+#sendCommentBtn {
+  margin-top: 10px;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.comment-card {
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  font-family: sans-serif;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  direction: rtl;
+}
+
+.comment-name {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.comment-text {
+  color: #555;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+#sendCommentBtn:hover {
+  background-color: #0056b3;
+}
+
+.reply-card {
+  background-color: #e8f0fe;
+  border-radius: 8px;
+  margin: 6px 10px;
+  padding: 8px 12px;
+  font-size: 13px;
+  direction: rtl;
+}
+
+.reply-box textarea {
+  width: 100%;
+  height: 50px;
+  margin-top: 5px;
+  border-radius: 6px;
+}
+.reply-name {
+  font-weight: bold;
+  color: #1a73e8;
+  margin-bottom: 4px;
+}
+
+.reply-text {
+  color: #333;
+}
+
+.profile-image {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.ltr-comment {
+  direction: ltr !important;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.ltr-comment img {
+  order: 0;
+}
+
+.ltr-comment .comment-name,
+.ltr-comment .comment-text,
+.ltr-comment .reply-name,
+.ltr-comment .reply-text {
+  text-align: left !important;
+}
+
+.replies-container {
+  margin-left: 36px; /* إزاحة الردود */
+}
+
