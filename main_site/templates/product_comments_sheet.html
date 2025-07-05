@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>💬 Comments</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #000000cc;
+      overflow-x: hidden;
+    }
+    .comments-sheet {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 90%;
+      background: #fff;
+      border-radius: 18px 18px 0 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .sheet-header {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      font-size: 18px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #ddd;
+      color: #000;
+    }
+    #commentsList {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+    }
+    .comment-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .comment-item img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .comment-content {
+      background: #f4f4f4;
+      border-radius: 10px;
+      padding: 10px;
+      flex: 1;
+    }
+    .reply-box {
+      margin-left: 48px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-top: 6px;
+      font-size: 14px;
+    }
+    .reply-link {
+      font-size: 13px;
+      color: #007bff;
+      margin-top: 4px;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .input-footer {
+      flex-shrink: 0;
+      padding: 12px 16px;
+      border-top: 1px solid #ddd;
+      background: #fff;
+    }
+    .input-footer textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      font-size: 15px;
+      resize: none;
+      margin-bottom: 8px;
+    }
+    .input-footer button {
+      width: 100%;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .close-btn {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: #333;
+      cursor: pointer;
+    }
+    .comment-count {
+      font-size: 14px;
+      font-weight: normal;
+      margin-left: 8px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+<div class="comments-sheet">
+  <div class="sheet-header">
+    💬 Comments <span id="commentCount" class="comment-count"></span>
+    <button class="close-btn" onclick="closeAndUpdateCount()" style="position:absolute; right:16px; top:12px;">✖</button>
+
+  </div>
+
+  <div id="commentsList">Loading...</div>
+
+  <div class="input-footer">
+    <textarea id="newComment" placeholder="Add your comment..."></textarea>
+    <button onclick="submitComment()">📩 Send</button>
+  </div>
+</div>
+
+<script>
+  const productId = new URLSearchParams(window.location.search).get("product_id");
+  const userName = localStorage.getItem("full_name") || "User";
+  const profileImage = localStorage.getItem("profile_image") || "static/img/default-user.png";
+  let replyingTo = null;
+
+  function getCommentCount() {
+    const counter = document.getElementById("commentCount");
+    return counter ? counter.textContent.replace(/[^\d]/g, '') : "0";
+  }
+
+function closeAndUpdateCount() {
+  const count = getCommentCount();
+  if (productId) {
+    localStorage.setItem(`comment-count-update-${productId}`, count);
+  }
+
+  try {
+    window.close();
+    setTimeout(() => {
+      if (!window.closed) {
+        window.location.href = document.referrer || "/";
+      }
+    }, 300);
+  } catch (e) {
+    window.location.href = document.referrer || "/";
+  }
+}
+
+  function loadComments() {
+    fetch(`/get_product_comments/${productId}`)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("commentsList");
+        const counter = document.getElementById("commentCount");
+       const totalComments = data.reduce((sum, comment) => {
+  const repliesCount = (comment.replies || []).length;
+  return sum + 1 + repliesCount; // 1 للتعليق الأساسي + عدد ردوده
+}, 0);
+
+counter.textContent = `(${totalComments})`;
+
+
+        if (!data.length) {
+          container.innerHTML = "<p>No comments yet.</p>";
+          return;
+        }
+
+        const replyIds = new Set();
+        data.forEach(c => (c.replies || []).forEach(r => replyIds.add(r.id)));
+        const mainComments = data.filter(c => !replyIds.has(c.id));
+
+        container.innerHTML = mainComments.map((c) => {
+          const replies = c.replies || [];
+          const visibleReplies = replies.slice(0, 2);
+          const hiddenReplies = replies.slice(2);
+
+          const visibleHTML = visibleReplies.map(r => `
+            <div class="comment-item reply-box">
+              <img src="${r.profile_image || 'static/img/default-user.png'}" alt="">
+              <div class="comment-content">
+                <strong>${r.full_name}</strong><br>${r.comment}
+              </div>
+            </div>`).join("");
+
+          const hiddenHTML = hiddenReplies.map(r => `
+            <div class="comment-item reply-box hidden-reply" style="display:none;">
+              <img src="${r.profile_image || 'static/img/default-user.png'}" alt="">
+              <div class="comment-content">
+                <strong>${r.full_name}</strong><br>${r.comment}
+              </div>
+            </div>`).join("");
+
+          const moreBtn = hiddenReplies.length > 0 ? `
+            <div class="reply-link show-more-btn" onclick="
+              const replies = this.parentNode.querySelectorAll('.hidden-reply');
+              replies.forEach(e => e.style.display = 'flex');
+              this.style.display = 'none';
+              const hideBtn = document.createElement('div');
+              hideBtn.className = 'reply-link hide-replies-btn';
+              hideBtn.textContent = '🔼 إخفاء الردود';
+              hideBtn.onclick = () => {
+                replies.forEach(e => e.style.display = 'none');
+                this.parentNode.querySelector('.show-more-btn').style.display = 'inline-block';
+                hideBtn.remove();
+              };
+              this.parentNode.appendChild(hideBtn);
+            ">↪️ Show ${hiddenReplies.length} more</div>` : "";
+
+          return `
+            <div class="comment-item">
+              <img src="${c.profile_image || 'static/img/default-user.png'}" alt="">
+              <div class="comment-content">
+                <strong>${c.full_name}</strong><br>
+                ${c.comment}
+                <div class="reply-link" onclick="replyTo('${c.id}', '${c.full_name}')">↪️ Reply</div>
+                ${visibleHTML}
+                ${hiddenHTML}
+                ${moreBtn}
+              </div>
+            </div>`;
+        }).join("");
+      });
+  }
+
+  function submitComment() {
+    const comment = document.getElementById("newComment").value.trim();
+    if (!comment) return alert("❌ Please enter a comment.");
+
+    const payload = {
+      product_id: productId,
+      comment: comment,
+      full_name: userName,
+      profile_image: profileImage,
+      user_id: localStorage.getItem("user_id") || ""
+    };
+
+    if (replyingTo) payload.reply_to = replyingTo;
+
+    fetch("/submit_product_comment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(() => {
+      document.getElementById("newComment").value = "";
+      replyingTo = null;
+      document.getElementById("newComment").placeholder = "Add your comment...";
+      loadComments();
+    });
+  }
+
+  function replyTo(commentId, name) {
+    replyingTo = commentId;
+    document.getElementById("newComment").placeholder = `Replying to ${name}...`;
+    document.getElementById("newComment").focus();
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    if (!productId) {
+      alert("❌ لم يتم تحديد المنتج");
+      return;
+    }
+    loadComments();
+  });
+
+
+
+
+let commentInterval; // لتخزين المكرر
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (!productId) {
+    alert("❌ لم يتم تحديد المنتج");
+    return;
+  }
+
+  loadComments(); // أول تحميل
+
+  // ✅ تكرار التحديث كل 10 ثواني
+  commentInterval = setInterval(() => {
+    const isOpen = document.querySelector(".comments-sheet");
+    const isReplying = document.activeElement === document.getElementById("newComment");
+
+    if (isOpen && !isReplying) {
+      loadComments(); // أعد تحميل التعليقات
+    }
+  }, 10000);
+});
+
+
+
+
+
+</script>
+
+</body>
+</html>

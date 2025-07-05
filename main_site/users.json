@@ -1,0 +1,37 @@
+[
+    {
+        "user_id": "admin",
+        "username": "admin",
+        "password": "admin123",
+        "full_name": "Offer Me ",
+        "business_type": " Offer Me"
+    },
+    {
+        "user_id": "محمود",
+        "username": "محمود",
+        "password": "1",
+        "full_name": "سنادار للمقاولات",
+        "business_type": "سيارات"
+    },
+    {
+        "user_id": "حازم",
+        "username": "حازم",
+        "password": "2",
+        "full_name": "ليلاس للمفروشات",
+        "business_type": "سوبر ماركت"
+    },
+    {
+        "user_id": "عدنان",
+        "username": "عدنان",
+        "password": "2",
+        "full_name": "عدنان الحبيب",
+        "business_type": "امتيازات"
+    },
+    {
+        "user_id": "احمد",
+        "username": "احمد",
+        "password": "1",
+        "full_name": "Elevate Elevators Qatar WLL",
+        "business_type": "مقاولات"
+    }
+]

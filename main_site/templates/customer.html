@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+  <title>📹 إدارة فيديوهاتي</title>
+
+  <link rel="stylesheet" href="/static/css/customer.css" />
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+
+  <div id="customer-container"></div>
+  <h2 id="user-title" style="color:white; text-align:center; margin:10px 0;"></h2>
+
+
+  <!-- ✅ الفوتر المخصص للزبون -->
+  <footer class="customer-footer">
+    <button onclick="location.href='upload.html'">⬆️</button>
+    <button onclick="location.href='service.html'">🧾</button>
+    <button onclick="location.href='manage_tabs.html'">🛠️</button>
+
+    <button onclick="location.href='comments_center.html'">💬</button>
+    <button onclick="location.href='store.html'">🏠</button>
+  </footer>
+
+  <!-- ✅ تحميل -->
+  <div id="loader" class="loader">
+    <img src="/static/img/intro.gif" alt="جار التحميل..." />
+  </div>
+
+  <script src="/static/js/customer.js"></script>
+</body>
+</html>

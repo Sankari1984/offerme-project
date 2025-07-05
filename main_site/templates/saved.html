@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+  <title>📌 المنتجات المحفوظة</title>
+
+  <link rel="stylesheet" href="/static/css/tiktok.css" />
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+
+
+<body>
+
+<div id="backButton" style="
+  position: sticky;
+  top: 0;
+  background: linear-gradient(to right, #ff4747, #ff8c47);
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  z-index: 9999;
+  cursor: pointer;
+  border-bottom: 1px solid #fff;
+">
+  🔙 العودة إلى الفيديوهات
+</div>
+
+
+
+<!-- ✅ نفس الحاوية -->
+<div id="tiktok-container"></div>
+
+<!-- ✅ فوتر للتنقل -->
+<footer class="tiktok-footer">
+  <button onclick="window.location.href='/tiktok'">🎥</button>
+  <button onclick="window.location.href='/my_profile'">👤</button>
+</footer>
+
+<!-- ✅ كود التشغيل -->
+<script src="/static/js/saved.js"></script>
+
+</body>
+</html>

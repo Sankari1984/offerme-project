@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "تشغيل السيرفر كمسؤول",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "Start-Process powershell -Verb runAs -ArgumentList '-NoExit','-File','C:\\Users\\Haytham\\Desktop\\Offer me\\flask_server\\run_server.ps1'"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

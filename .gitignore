@@ -1,0 +1,35 @@
+# تجاهل مجلدات البيئة الافتراضية
+venv/
+uploader/venv/
+main_site/venv/
+
+# تجاهل أدوات FFmpeg الضخمة
+uploader/bin/
+main_site/ffmpeg.exe
+main_site/ffprobe.exe
+main_site/ffplay.exe
+
+# تجاهل ملفات الصوت والفيديو والصور الثقيلة
+*.mp4
+*.mp3
+*.avi
+*.mov
+*.mkv
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.ts
+*.m3u8
+
+# تجاهل ملفات النظام الكبيرة
+*.zip
+*.tar
+*.so
+*.dll
+*.exe
+*.tmp
+*.log
+
+# تجاهل مجلد الرفع
+uploads/

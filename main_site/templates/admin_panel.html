@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>لوحة تحكم الأدمن</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      overflow-x: hidden; /* ✅ يمنع السحب لليسار */
+      background: #f4f4f4;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      padding: 15px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    #adminContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .product-box {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 100%; /* ✅ يمنع التمدد خارج الشاشة */
+    }
+
+    .product-box h3 {
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+
+    .product-box p {
+      font-size: 14px;
+      margin: 4px 0;
+    }
+
+    .product-media {
+      width: 100%;
+      height: auto;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin: 12px 0;
+    }
+
+    .mark-btn {
+      background: #ffc107;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .mark-btn.done {
+      background: #28a745;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🛠️ لوحة تحكم الأدمن - تمييز المنتجات</h2>
+  <div id="adminContainer"></div>
+
+  <script>
+    fetch('/all-products')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("adminContainer");
+
+        data.forEach(p => {
+          const box = document.createElement("div");
+          box.className = "product-box";
+
+          const title = document.createElement("h3");
+          title.textContent = p.name;
+          box.appendChild(title);
+
+          const fullname = document.createElement("p");
+          fullname.innerHTML = "👤 الزبون: <b>" + (p.full_name || "غير معروف") + "</b>";
+          box.appendChild(fullname);
+
+          const desc = document.createElement("p");
+          desc.textContent = p.description;
+          box.appendChild(desc);
+
+          let media;
+          if (p.type === 'video') {
+            media = document.createElement("video");
+            media.className = "product-media";
+            media.controls = true;
+            media.muted = true;
+
+            if (Hls.isSupported() && p.url.endsWith(".m3u8")) {
+              const hls = new Hls();
+              hls.loadSource(p.url);
+              hls.attachMedia(media);
+            } else {
+              media.src = p.url;
+            }
+          } else {
+            media = document.createElement("img");
+            media.className = "product-media";
+            media.src = p.poster || p.url || "";
+          }
+
+          box.appendChild(media);
+
+          const btn = document.createElement("button");
+          btn.textContent = p.featured ? "⭐ مميز" : "تمييز";
+          btn.className = "mark-btn" + (p.featured ? " done" : "");
+
+          btn.onclick = () => {
+            const newState = !p.featured;
+            fetch(`/mark-featured/${p.id}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ featured: newState })
+            })
+              .then(res => res.json())
+              .then(r => {
+                if (r.status === 'success') {
+                  p.featured = newState;
+                  btn.textContent = newState ? "⭐ مميز" : "تمييز";
+                  btn.classList.toggle("done", newState);
+                }
+              });
+          };
+
+          box.appendChild(btn);
+          container.appendChild(box);
+        });
+      });
+  </script>
+
+</body>
+</html>

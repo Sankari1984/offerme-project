@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>جميع المنتجات</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/all_products.css') }}">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #f7f9fc;
+      color: #333;
+    }
+    header {
+      background: #ffffff;
+      padding: 10px 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .header-left h1 {
+      margin: 0;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+    }
+    .search-bar {
+      flex: 1;
+      margin: 10px 20px;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .header-actions button {
+      background: #eee;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 8px;
+    }
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px 20px;
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+    .filter-bar select, .filter-bar button {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 20px;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: 0.3s;
+    }
+    .product-card:hover {
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    }
+    .product-media {
+      width: 100%;
+      border-radius: 10px;
+      max-height: 200px;
+      object-fit: cover;
+    }
+    .product-name {
+      font-size: 16px;
+      margin: 10px 0 5px;
+    }
+    .product-price {
+      color: #27ae60;
+      margin: 0 0 5px;
+    }
+    .product-description {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 5px;
+    }
+    .like-comment-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+    }
+    .like-comment-bar button {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .store-link {
+      font-size: 12px;
+      color: #555;
+      cursor: pointer;
+    }
+    .announcement-bar {
+      background: #fff7e6;
+      color: #a87a00;
+      padding: 8px;
+      text-align: center;
+      font-size: 14px;
+      border-bottom: 1px solid #ffe08a;
+    }
+
+    
+    @media (max-width: 768px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 769px) {
+      .product-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement-bar">
+    🛍️ تم رفع منتج جديد في "متجر رنا - عطور مميزة"! ✨
+  </div>
+  <header>
+    <div class="header-left">
+      <h1>🛍️ عروض اليوم</h1>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍 ابحث مثل: منتجات أقل من 100 ريال..." />
+    </div>
+    <div class="header-actions">
+      <button onclick="window.location.href='/'">🏠 الرئيسية</button>
+    </div>
+    
+
+  </header>
+
+<div style="padding: 10px 20px;">
+  <button id="backToStoreBtn" style="display: none; background: #4CAF50; color: white; padding: 10px 16px; border: none; border-radius: 10px; cursor: pointer; font-size: 15px;">
+    🔙 العودة إلى متجري
+  </button>
+</div>
+
+    <div id="storiesBar" class="stories-bar">
+  <!-- سيتم ملء الأيقونات ديناميكيًا من all_products.js -->
+   </div>
+
+  <div class="filter-bar">
+    <button>📌 الأكثر تثبيتاً</button>
+    <button onclick="sortByLikes()">❤️ الأكثر إعجاباً</button>
+    <button onclick="sortByPrice()">💰 الأرخص سعراً</button>
+    <button>🕒 الأحدث</button>
+  </div>
+
+  <div class="product-grid" id="productGrid"></div>
+
+  <div id="productDetails" style="display:none; background:#fff; padding:20px; border-top:1px solid #ccc; margin-top:20px;">
+    <h3 id="productTitle">تفاصيل المنتج</h3>
+    <p id="sellerPhone"></p>
+    <p id="sellerInstagram"></p>
+    <p id="sellerWhatsApp"></p>
+  </div>
+  <div id="commentPopup" style="display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%);
+  background:#fff; padding:20px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.3); width:90%; max-width:400px; z-index:1000;">
+  <h3>💬 التعليقات</h3>
+  <div id="commentsList" style="max-height:200px; overflow-y:auto; margin-bottom:10px;"></div>
+  <textarea id="newComment" placeholder="اكتب تعليقك هنا..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;"></textarea>
+  <button onclick="submitPopupComment()" style="margin-top:10px; background:#4CAF50; color:#fff; border:none; padding:8px 12px; border-radius:6px; cursor:pointer;">➕ أضف تعليق</button>
+  <button onclick="closePopup()" style="margin-top:10px; background:#ccc; color:#000; border:none; padding:6px 10px; border-radius:6px; float:left;">❌ إغلاق</button>
+</div>
+<div id="popupOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:999;" onclick="closePopup()"></div>
+
+<!-- ✅ سكربت الجافاسكربت يوضع هنا قبل إغلاق </body> -->
+
+<script>
+const BASE_URL = window.location.origin;
+const urlParams = new URLSearchParams(window.location.search);
+const selectedCategory = urlParams.get("category");
+
+async function getUserSettings(userId) {
+  try {
+    const res = await fetch(`${BASE_URL}/user-settings/${userId}`);
+    const data = await res.json();
+    return data;
+  } catch (e) {
+    console.error("❌ فشل في جلب إعدادات الزبون", e);
+    return null;
+  }
+}
+
+async function displayProducts(products) {
+  const container = document.getElementById('productGrid');
+  container.innerHTML = '';
+
+  for (const product of products) {
+    const isVideo = product.image.toLowerCase().endsWith('.mp4') || product.image.toLowerCase().endsWith('.mov');
+    const mediaHTML = isVideo
+      ? `<video src="${product.image}#t=0.1" controls class="product-media"></video>`
+      : `<img src="${product.image}" alt="${product.name}" class="product-media">`;
+
+    const priceHTML = product.price ? `<p class="product-price">${product.price} ر.ق</p>` : '';
+    const settings = await getUserSettings(product.user_id);
+    const phone = settings?.phone || '';
+    const whatsapp = settings?.whatsapp || '';
+    const messageText = `👋 مرحبًا! هذا رابط صورة المنتج:\n${product.image}`;
+    const whatsappLink = `https://wa.me/${whatsapp.replace(/\D/g, '').replace(/^0+/, '').replace(/^/, '974')}?text=${encodeURIComponent(messageText)}`;
+
+    const contactButtons = (phone || whatsapp)
+      ? `<div class="contact-buttons">
+          ${phone ? `<a href="tel:${phone}" class="icon-btn" title="اتصال"><img src="/static/icons/phone.svg" alt="اتصال"></a>` : ''}
+          ${whatsapp ? `<a href="${whatsappLink}" class="icon-btn" target="_blank" title="واتساب"><img src="/static/icons/whatsapp.svg" alt="واتساب"></a>` : ''}
+        </div>`
+      : '<div style="margin-top:10px; color:gray; font-size:12px; text-align:center;">رقم غير متوفر</div>';
+
+    container.innerHTML += `
+      <div class="product-card">
+        <a href="/store.html?user_id=${encodeURIComponent(product.user_id)}&highlight=${product.id}">
+          ${mediaHTML}
+        </a>
+        <h3 class="product-name">${product.name}</h3>
+        ${priceHTML}
+        <p class="product-description">${product.description || ''}</p>
+        <div class="like-comment-bar">
+          <button class="like-btn" data-id="${product.id}">❤️ <span id="likes-${product.id}">${product.likes || 0}</span></button>
+          <button onclick="viewComments('${product.id}')">💬 عرض التعليقات</button>
+        </div>
+        <div class="store-link" onclick="window.location.href='/user_store.html?user_id=${product.user_id}'">
+          📍 ${product.user_id}
+        </div>
+        ${contactButtons}
+      </div>`;
+  }
+
+  products.forEach(product => {
+    const btn = document.querySelector(`.like-btn[data-id="${product.id}"]`);
+    if (btn) {
+      btn.addEventListener('click', () => {
+        fetch(`${BASE_URL}/like/${product.id}`, { method: 'POST' })
+          .then(res => res.json())
+          .then(data => {
+            const span = document.getElementById(`likes-${product.id}`);
+            if (span) span.textContent = data.likes;
+          });
+      });
+    }
+  });
+}
+
+async function loadCategoryProducts() {
+  try {
+    const productRes = await fetch(`${BASE_URL}/products`);
+    const allProducts = await productRes.json();
+
+    const userRes = await fetch(`${BASE_URL}/users`);
+    const users = await userRes.json();
+
+    const matchingUserIds = users
+      .filter(user => user.business_type === selectedCategory)
+      .map(user => user.user_id);
+
+    const filtered = allProducts
+      .filter(p => matchingUserIds.includes(p.user_id));
+
+    for (let p of filtered) {
+      const res = await fetch(`${BASE_URL}/likes/${p.id}`);
+      const data = await res.json();
+      p.likes = data.likes || 0;
+    }
+
+    const imagesOnly = filtered.filter(p => {
+  const ext = (p.image || "").toLowerCase();
+  return !ext.endsWith(".mp4") && !ext.endsWith(".mov") && !ext.endsWith(".webm");
+});
+displayProducts(imagesOnly);
+
+    document.querySelector(".header-left h1").textContent = "🛍️ عروض " + selectedCategory;
+  } catch (err) {
+    console.error("❌ خطأ أثناء تحميل المنتجات:", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadCategoryProducts);
+</script>
+
+<script>
+async function loadCategoryStories() {
+  const container = document.getElementById("storiesBar");
+  container.innerHTML = ""; // 🧹 تنظيف أولاً
+
+  const usersRes = await fetch(`${BASE_URL}/users`);
+  const users = await usersRes.json();
+
+  const filteredUsers = users.filter(user => user.business_type === selectedCategory);
+
+  for (const user of filteredUsers) {
+    const settingsRes = await fetch(`${BASE_URL}/user-settings/${user.user_id}`);
+    const settings = await settingsRes.json();
+
+    const videosRes = await fetch(`${BASE_URL}/user-videos/${user.user_id}`);
+    const videos = await videosRes.json();
+
+    const lastVideo = videos.length > 0 ? videos[videos.length - 1].filename : null;
+    const preview = lastVideo
+      ? `/${lastVideo}#t=0.5`
+      : (settings.logo || "/static/img/default_logo.png");
+
+    const div = document.createElement("div");
+    div.className = "story-icon";
+    div.onclick = () => window.location.href = `stories.html?user_id=${user.user_id}`;
+
+    div.innerHTML = lastVideo
+      ? `<video src="${preview}" class="story-thumb" muted autoplay loop playsinline></video>
+         <span>${user.full_name}</span>`
+      : `<img src="${preview}" class="story-thumb" alt="${user.full_name}">
+         <span>${user.full_name}</span>`;
+
+    container.appendChild(div);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadCategoryStories);
+</script>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromUser = urlParams.get("from_user");
+
+    const backBtn = document.getElementById("backToStoreBtn");
+
+    if (fromUser && backBtn) {
+      backBtn.style.display = "inline-block";
+      backBtn.addEventListener("click", () => {
+        localStorage.setItem("user_id", fromUser); // نحفظ الـ user_id
+        window.location.href = "/store.html"; // نرجع للمتجر
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
+

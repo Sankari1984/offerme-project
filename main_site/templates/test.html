@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>🧪 اختبار الاتصال بـ 5001 عبر بروكسي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #eef0f3;
+      padding: 40px;
+      text-align: center;
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    textarea {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 500px;
+      height: 180px;
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🧪 اختبار الاتصال بـ /generate-post عبر بروكسي</h2>
+  <button onclick="generatePost()">🚀 أرسل إلى سيرفر 5001</button>
+
+  <textarea id="responseBox" placeholder="النتيجة تظهر هنا..."></textarea>
+
+  <script>
+    async function generatePost() {
+      const responseBox = document.getElementById("responseBox");
+      responseBox.value = "⏳ جاري الاتصال...";
+
+      try {
+        const res = await fetch("/generate-post", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: "ورد شمسية",
+            description: " ورد من الشام"
+          })
+        });
+
+        const data = await res.json();
+        if (data.status === "success") {
+          responseBox.value = data.post || "✅ تم بنجاح!";
+        } else {
+          responseBox.value = "⚠️ فشل: " + JSON.stringify(data);
+        }
+      } catch (err) {
+        responseBox.value = "❌ خطأ في الاتصال: " + err.message;
+      }
+    }
+  </script>
+
+</body>
+</html>
