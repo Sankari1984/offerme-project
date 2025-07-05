@@ -995,18 +995,28 @@ def save_location():
     latitude = data.get("latitude")
     longitude = data.get("longitude")
 
-    # تحميل ملف إعدادات الزبائن
-    with open('settings_user.json', 'r+', encoding='utf-8') as f:
-        settings = json.load(f)
-        if user_id not in settings:
-            settings[user_id] = {}
-        settings[user_id]['location'] = {
-            'lat': latitude,
-            'lng': longitude
-        }
-        f.seek(0)
+    # اسم ملف الإعدادات الخاص بالمستخدم
+    settings_file = f"settings_user_{user_id}.json"
+
+    # قراءة الإعدادات الحالية إن وجدت
+    if os.path.exists(settings_file):
+        try:
+            with open(settings_file, 'r', encoding='utf-8') as f:
+                settings = json.load(f)
+        except Exception:
+            settings = {}
+    else:
+        settings = {}
+
+    # تحديث موقع المستخدم
+    settings['location'] = {
+        'lat': latitude,
+        'lng': longitude
+    }
+
+    # حفظ الإعدادات المحدثة
+    with open(settings_file, 'w', encoding='utf-8') as f:
         json.dump(settings, f, ensure_ascii=False, indent=2)
-        f.truncate()
 
     return jsonify({"message": "✅ تم حفظ موقعك بنجاح"})
 
