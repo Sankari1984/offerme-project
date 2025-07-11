@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session, render_template_string
+from flask import Flask, request, session, render_template_string
 from twilio.rest import Client
 import random
 import os
@@ -83,7 +83,6 @@ def verify_otp():
     saved_otp = session.get('otp')
     phone = session.get('phone')
     name = session.get('name')
-    to_number = f"whatsapp:+974{phone}"
 
     if input_otp == saved_otp:
         # 🟢 حفظ أو تحديث الزائر
