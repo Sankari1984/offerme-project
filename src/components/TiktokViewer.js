@@ -11,10 +11,16 @@ const highlightedStyle = {
   };
 
 const TiktokViewer = () => {
-    
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [soundOn, setSoundOn] = useState(false);
+  const [savedProducts, setSavedProducts] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("savedProducts") || "[]");
+    } catch {
+      return [];
+    }
+  });
   const videoRefs = useRef([]);
 
  useEffect(() => {
@@ -120,17 +126,16 @@ if (highlightId) {
 
 
   const toggleSave = (index, url) => {
-  let saved = JSON.parse(localStorage.getItem("savedProducts") || "[]");
-
-  if (saved.includes(url)) {
-    saved = saved.filter((item) => item !== url);
-  } else {
-    saved.push(url);
-  }
-
-  localStorage.setItem("savedProducts", JSON.stringify(saved));
-  setProducts((prev) => [...prev]); // لإعادة الريندر
-};
+    let saved = [...savedProducts];
+    if (saved.includes(url)) {
+      saved = saved.filter((item) => item !== url);
+    } else {
+      saved.push(url);
+    }
+    localStorage.setItem("savedProducts", JSON.stringify(saved));
+    setSavedProducts(saved); // تحديث الحالة فوراً
+    setProducts((prev) => [...prev]); // لإعادة الريندر
+  };
 
   const toggleLike = (index) => {
   const btn = document.getElementById(`like-${index}`);
@@ -250,11 +255,7 @@ if (highlightId) {
   style={iconBtn}
 >
   <img
-    src={`/static/img/${
-      JSON.parse(localStorage.getItem("savedProducts") || "[]").includes(item.url)
-        ? "saved.png"
-        : "save.png"
-    }`}
+    src={`/static/img/${savedProducts.includes(item.url) ? "saved.png" : "save.png"}`}
     alt="Save"
     style={iconImageStyle}
 />
