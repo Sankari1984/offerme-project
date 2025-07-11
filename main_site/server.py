@@ -797,6 +797,17 @@ def like_product(product_id):
     conn.close()
     return jsonify({'status': 'success', 'likes': new_count})
 
+# جديد: مسار يعيد إجمالي عدد الإعجابات لكل المنتجات
+@app.route('/likes-total', methods=['GET'])
+def get_total_likes():
+    conn = sqlite3.connect('likes.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT SUM(count) FROM likes')
+    row = cursor.fetchone()
+    conn.close()
+    total = row[0] if row and row[0] is not None else 0
+    return jsonify({'total_likes': total})
+
 
 
 @app.route('/notifications/<user_id>')
