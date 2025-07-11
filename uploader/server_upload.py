@@ -1,4 +1,3 @@
-from urllib.parse import unquote
 
 # ✅ إصلاح مؤقت لخطأ ANTIALIAS في النسخ الحديثة من Pillow
 import PIL.Image
@@ -168,20 +167,12 @@ def serve_uploaded_file(filename):
 
 
 #تحويل الصورة لفيديو
-import os
-import uuid
 import numpy as np
-import subprocess
-
 from moviepy.editor import (
     ImageClip, TextClip, CompositeVideoClip,
     AudioFileClip, VideoFileClip, vfx
 )
 from PIL import Image, ImageDraw
-
-# ✅ مجلد HLS
-HLS_FOLDER = os.path.abspath("uploads/hls")
-os.makedirs(HLS_FOLDER, exist_ok=True)
 
 
 def create_video_from_image(image_path, output_path, name, price):
@@ -318,7 +309,6 @@ def convert_to_hls(file_path, file_id):
 
         # ✅ توليد صورة مصغرة
         try:
-            from moviepy.video.io.VideoFileClip import VideoFileClip
             thumbnail_path = os.path.join(hls_output, "thumbnail.jpg")
             clip = VideoFileClip(file_path)
             clip.save_frame(thumbnail_path, t=1.0)
@@ -532,7 +522,6 @@ def manage_settings(user_id):
 #دالة تعديل الفيديو الأصلي
 def create_ad_video_from_video(input_path, output_path, name, price):
     try:
-        from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip
 
         # ✅ أولاً حمّل الفيديو
         clip = VideoFileClip(input_path)

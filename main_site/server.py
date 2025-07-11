@@ -9,20 +9,14 @@ import os
 import uuid
 import sqlite3
 from werkzeug.utils import secure_filename
-from urllib.parse import unquote
 import requests
 import smtplib
-from email.message import EmailMessage
-from email import policy
 from datetime import datetime
 from time import time
 last_comment_time = {}
 from uuid import uuid4
-from urllib.parse import quote
 
 
-import moviepy.config as mpy_config
-import os
 import multiprocessing
 
 
@@ -77,10 +71,6 @@ app.config['MAX_CONTENT_LENGTH'] = 300 * 1024 * 1024  # 300MB مثلاً
 
 CORS(app, resources={r"/*": {"origins": "https://offermeqa.com"}})
 
-import os
-import json
-from flask import request, jsonify
-
 TOKENS_FILE = 'fcm_tokens.json'
 
 # أنشئ الملف إذا ما كان موجود
@@ -106,7 +96,6 @@ def save_token():
         json.dump(tokens, f, ensure_ascii=False, indent=2)
 
     return jsonify({"status": "success", "message": "Token saved ✅"})
-import requests
 
 FCM_API_KEY = "AAAAkUu..."  # 🔐 استبدله بمفتاح السيرفر من Firebase console (Server Key)
 
@@ -823,13 +812,10 @@ def get_business_types():
     with open('business_types.json', 'r', encoding='utf-8') as f:
         types = json.load(f)
     return jsonify(types)
-from flask import send_from_directory
 
 @app.route('/firebase-messaging-sw.js')
 def serve_firebase_sw():
     return send_from_directory('.', 'firebase-messaging-sw.js')
-
-from email.message import EmailMessage
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -932,9 +918,6 @@ def get_user_settings(user_id):
 @app.route('/notifications.html')
 def notifications_page():
     return render_template('notifications.html')
-
-from flask import jsonify
-from datetime import datetime
 
 @app.route('/user-comments/<user_id>')
 def get_user_comments(user_id):
@@ -1051,11 +1034,6 @@ ALIEXPRESS_API_HOST = config.get("aliexpress_api_host")
 
 import urllib.request  # ضيف هذا في أعلى الملف إذا مو موجود
 
-import requests
-import json
-import os
-import uuid
-from flask import request, jsonify
 
 
 @app.route("/track-affiliate-click", methods=["POST"])
@@ -1096,9 +1074,7 @@ def get_affiliate_clicks(product_id):
 
 
 
-from flask import request, jsonify
-from werkzeug.utils import secure_filename
-import os
+
 
 @app.route("/upload-image", methods=["POST"])
 def upload_image():
@@ -1167,8 +1143,6 @@ def get_golden_products():
         return jsonify(products)
     else:
         return jsonify([])
-
-from flask import send_from_directory
 
 
 
@@ -1252,8 +1226,7 @@ def offerme_page():
     return render_template("offerme.html")
 
 
-import os
-from flask import jsonify
+
 
 # ✅ مسار فعلي لمجلد الرفع (uploader/uploads)
 UPLOAD_FOLDER_REAL = os.path.abspath("../uploader/uploads")
@@ -1361,9 +1334,7 @@ def upload_hls_files():
     return jsonify({"status": "ok", "message": "Files uploaded successfully"})
 
 
-from flask import request, jsonify
-import json
-import os
+
 
 # ✅ تأكد من وجود الملف
 DATA_FILE = os.path.join("data", "products_data.json")
@@ -1925,10 +1896,7 @@ def verify_otp():
 
 
 
-from flask import request, jsonify
-import json
-import os  # ⬅️ مهم لإحضار المسار الكامل
-from uuid import uuid4
+
 
 @app.route('/get_product_comments/<product_id>')
 def get_product_comments(product_id):
@@ -1944,10 +1912,7 @@ def get_product_comments(product_id):
 
 
 from flask import request, jsonify
-import json
-import os
-from uuid import uuid4
-from datetime import datetime
+
 
 @app.route('/submit_product_comment', methods=['POST'])
 def submit_product_comment():
@@ -2193,9 +2158,6 @@ def mark_featured(product_id):
         json.dump(products, f, ensure_ascii=False, indent=2)
 
     return jsonify({"status": "success"})
-
-import os
-from flask import jsonify
 
 @app.route('/api/last-products-update')
 def get_last_products_update():
