@@ -1,0 +1,6 @@
+{
+  "openrouter_api_key": "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",
+  "aliexpress_api_key": "41cf45c01dmsh166fccf14f2c62fp1593dajsn9fab2b3c9a09",
+  "aliexpress_api_host": "aliexpress-data.p.rapidapi.com",
+  "model": "openrouter/openai/gpt-3.5-turbo"
+}

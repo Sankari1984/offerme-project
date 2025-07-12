@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل دخول المستخدم - متجر العروض</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #ff4747;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #ff4747;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #d63031;
+    }
+    .guest-btn {
+      background: #888;
+    }
+    .guest-btn:hover {
+      background: #666;
+    }
+    .error-message {
+      color: red;
+      margin-top: 10px;
+    }
+    #otpSection {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+  <h1>👤 دخول</h1>
+  <input type="text" id="fullName" placeholder="اسمك الكامل" required>
+  <input type="tel" id="phone" placeholder="رقم الهاتف (بدون +974)" required>
+  <button onclick="sendOTP()">📩 إرسال كود التحقق</button>
+
+  <div id="otpSection" style="display:none;">
+    <input type="text" id="otpCode" placeholder="أدخل كود التحقق">
+    <button onclick="verifyOTP()">✅ تحقق</button>
+  </div>
+
+  <button class="guest-btn" onclick="guestLogin()">🧑‍💻 الدخول كزائر</button>
+  <div class="error-message" id="errorMsg"></div>
+</div>
+
+<script>
+let toNumber = "";
+
+function showError(msg) {
+  document.getElementById("errorMsg").textContent = msg;
+}
+
+// ✅ إرسال الكود إلى واتساب
+async function sendOTP() {
+  const fullName = document.getElementById('fullName').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+
+  if (!fullName || !phone) {
+    showError("❌ الرجاء إدخال الاسم ورقم الهاتف.");
+    return;
+  }
+
+  toNumber = phone;
+  localStorage.setItem("full_name", fullName);
+
+  try {
+    const res = await fetch("/send_otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone: phone })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById("otpSection").style.display = "block";
+      showError("✅ تم إرسال كود التحقق إلى واتساب.");
+    } else {
+      showError("❌ فشل في إرسال الكود.");
+    }
+  } catch (err) {
+    showError("❌ خطأ في الاتصال بالخادم.");
+  }
+}
+
+// ✅ التحقق من الكود
+async function verifyOTP() {
+  const otp = document.getElementById("otpCode").value.trim();
+  const fullName = localStorage.getItem("full_name");
+
+  if (!otp || !toNumber) {
+    showError("❌ أدخل الكود ورقم الهاتف.");
+    return;
+  }
+
+  try {
+    const res = await fetch("/verify_otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone: toNumber, otp: otp })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      const userId = "viewer_" + toNumber;
+      localStorage.setItem('user_id', userId);
+      localStorage.setItem('phone', toNumber);
+
+      await fetch("/register-viewer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: userId, full_name: fullName, phone: toNumber })
+      });
+
+      window.location.href = "/tiktok";
+    } else {
+      showError("❌ كود غير صحيح.");
+    }
+  } catch (err) {
+    showError("❌ فشل التحقق من الكود.");
+  }
+}
+
+// ✅ الدخول كزائر
+function guestLogin() {
+  const guestId = "guest_" + Date.now();
+  localStorage.setItem("user_id", guestId);
+  localStorage.setItem("full_name", "زائر");
+  localStorage.setItem("phone", "غير محدد");
+  window.location.href = "/tiktok";
+}
+</script>
+
+</body>
+</html>

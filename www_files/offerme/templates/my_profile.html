@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ملفي الشخصي</title>
+
+  <style>
+
+    /* انسخ هنا كل الـ CSS اللي كتبته */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f5f5;
+      overflow-x: hidden;
+    }
+
+    .profile-container {
+      width: 100%;
+      max-width: 450px;
+      margin: auto;
+      padding: 30px 20px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .avatar-section {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 20px;
+    }
+
+    .avatar-label img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #00aaff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .avatar-plus {
+      position: absolute;
+      bottom: -6px;
+      right: -6px;
+      width: 36px;
+      height: 36px;
+      background: #00aaff;
+      color: white;
+      font-size: 22px;
+      font-weight: bold;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .info-box {
+      background: white;
+      padding: 14px;
+      margin-bottom: 12px;
+      font-size: 18px;
+      border-radius: 12px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+      text-align: right;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .info-box strong {
+      color: #333;
+    }
+
+    .profile-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .profile-btn {
+      padding: 14px;
+      font-size: 17px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    .profile-btn.logout {
+      background-color: #dc3545;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-size: 16px;
+      color: green;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="profile-container">
+    <div class="avatar-section">
+      <label for="avatarInput" class="avatar-label">
+        <img id="avatarPreview" src="/static/img/default-user.png" alt="الصورة الشخصية">
+        <span class="avatar-plus">+</span>
+      </label>
+      <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+    </div>
+
+    <div class="info-box"><strong>👤 الاسم:</strong> <span id="nameField">جار التحميل...</span></div>
+    <div class="info-box"><strong>📞 الهاتف:</strong> <span id="phoneField">جار التحميل...</span></div>
+    <div class="profile-actions">
+      <button class="profile-btn" onclick="editInfo()">✏️ تعديل البيانات</button>
+      <button class="profile-btn" onclick="window.location.href='/saved'">🔖 عرض مفضلتي</button>
+      <button class="profile-btn logout" onclick="logout()">🚪 تسجيل الخروج</button>
+    </div>
+
+    <div class="message" id="messageBox"></div>
+  </div>
+
+  <script>
+    const nameField = document.getElementById("nameField");
+    const phoneField = document.getElementById("phoneField");
+    const messageBox = document.getElementById("messageBox");
+
+    const userId = localStorage.getItem("user_id");
+    let fullName = localStorage.getItem("full_name");
+    let phone = localStorage.getItem("phone");
+
+    if (fullName && phone) {
+      nameField.textContent = fullName;
+      phoneField.textContent = phone;
+    } else {
+      nameField.textContent = "❌ غير مسجل";
+      phoneField.textContent = "❌ غير متاح";
+    }
+
+    function logout() {
+      localStorage.removeItem("user_id");
+      localStorage.removeItem("full_name");
+      localStorage.removeItem("phone");
+      localStorage.removeItem("savedProducts");
+      window.location.href = "/viewer_login";
+    }
+
+    function editInfo() {
+  const newName = prompt("📝 أدخل اسمك الجديد:", fullName);
+
+  if (newName) {
+    localStorage.setItem("full_name", newName.trim());
+
+    fullName = newName.trim();
+    nameField.textContent = fullName;
+
+    fetch("/update-visitor", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: userId,
+        full_name: fullName,
+        phone: phone  // نرسل الرقم كما هو دون تغييره
+      })
+    })
+    .then(res => res.json())
+    .then(result => {
+      if (result.status === "success") {
+        messageBox.textContent = "✅ تم تعديل الاسم بنجاح";
+        messageBox.style.color = "green";
+      } else {
+        messageBox.textContent = "❌ لم يتم تعديل الاسم على السيرفر";
+        messageBox.style.color = "red";
+      }
+    })
+    .catch(err => {
+      messageBox.textContent = "❌ فشل الاتصال بالسيرفر";
+      messageBox.style.color = "red";
+    });
+  }
+}
+
+
+    const avatarInput = document.getElementById("avatarInput");
+    const avatarPreview = document.getElementById("avatarPreview");
+
+    avatarInput.addEventListener("change", () => {
+      const file = avatarInput.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("user_id", userId);
+
+      fetch("/upload-visitor-avatar", {
+        method: "POST",
+        body: formData
+      })
+        .then(res => res.json())
+        .then(result => {
+          if (result.status === "success") {
+            avatarPreview.src = result.image_url;
+            localStorage.setItem("profile_image", result.image_url);
+          } else {
+            alert("❌ فشل رفع الصورة");
+          }
+        })
+        .catch(err => {
+          alert("❌ خطأ في الاتصال بالسيرفر");
+        });
+    });
+
+    const storedAvatar = localStorage.getItem("profile_image");
+    if (storedAvatar) {
+      avatarPreview.src = storedAvatar;
+    }
+  </script>
+
+
+<div id="footer-container"></div>
+
+<script>
+  fetch("/static/components/footer.html")
+    .then((res) => res.text())
+    .then((html) => {
+      document.getElementById("footer-container").innerHTML = html;
+    });
+</script>
+
+
+
+</body>
+</html>

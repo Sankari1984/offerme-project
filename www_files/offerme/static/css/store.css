@@ -1,0 +1,509 @@
+body {
+  font-family: 'Almarai', sans-serif;
+  margin: 0;
+  background-color: #f9f9f9;
+  direction: rtl;
+}
+
+/* ✅ الهيدر */
+.modern-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-left-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.store-title-top-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.store-logo-small {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+/* ✅ شبكة المنتجات */
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 80px 10px 100px;
+}
+
+/* ✅ بطاقة المنتج */
+.product-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+}
+
+.product-card video {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  background-color: black;
+}
+
+.product-details {
+  padding: 12px;
+}
+
+.product-details h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: #333;
+}
+
+.product-details p {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+/* ✅ الفوتر السفلي */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #ddd;
+  padding: 6px 0;
+  z-index: 999;
+}
+
+.bottom-nav button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bottom-nav button span {
+  font-size: 12px;
+}
+
+/* ✅ الشارة الصغيرة (Badge) */
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  padding: 2px 5px;
+}
+
+/* ✅ مودال الصور والفيديوهات */
+#mediaModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#mediaContent {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+/* ✅ نوافذ الإرسال والطلبات */
+.bottom-sheet {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  z-index: 10000;
+  transition: bottom 0.3s ease-in-out;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+}
+
+.bottom-sheet.active {
+  bottom: 0;
+}
+
+.sheet-content {
+  padding: 20px;
+}
+
+.sheet-content h3 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.sheet-content select,
+.sheet-content textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.sheet-content button {
+  width: 100%;
+  padding: 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.cancel-btn {
+  background-color: #ccc !important;
+  margin-top: 8px;
+}
+
+/* ✅ إشعارات */
+#notificationBar {
+  display: none;
+  background: #fff3cd;
+  color: #856404;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid #ffeeba;
+  margin-top: 60px;
+}
+
+/* ✅ التعليقات */
+.popup {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: white;
+  border-top: 2px solid #ccc;
+  z-index: 10000;
+}
+
+.popup-content {
+  padding: 10px;
+}
+
+.popup-content h3 {
+  margin-top: 0;
+}
+
+.popup-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.popup-content button {
+  margin-top: 8px;
+  padding: 10px;
+  font-size: 14px;
+}
+.bottom-sheet {
+  bottom: -100%; /* مخفي */
+  transition: bottom 0.3s ease-in-out;
+}
+
+.bottom-sheet.active {
+  bottom: 0; /* يظهر من الأسفل */
+}
+
+#modalOverlay {
+  display: none; /* مخفي افتراضيًا */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 9998;
+}
+
+
+
+/* ✅ الشريط في أعلى الشاشة */
+#socialBar {
+  position: fixed;
+  top: 84px;       /* المسافة من الأعلى */
+  right: 20px;     /* المسافة من اليمين */
+  display: flex;
+  gap: 12px;       /* المسافة بين الأزرار */
+  z-index: 9999;
+}
+
+/* ✅ تصميم الأزرار بدون دائرة */
+.socialIcon {
+  width: auto;
+  height: auto;
+  background-color: transparent;  /* 🔄 لا خلفية */
+  border-radius: 0;               /* 🔄 لا شكل دائري */
+  padding: 0;                     /* 🔄 لا فراغ حول الصورة */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;               /* 🔄 لا ظل */
+}
+
+/* ✅ تنسيق الصورة داخل الزر */
+.socialIcon img {
+  width: 50px;       /* أو أي حجم يناسبك */
+  height: 50px;
+  object-fit: contain;
+}
+
+:root {
+  direction: rtl;
+  writing-mode: horizontal-tb;
+}
+
+
+
+
+#storyOverlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  z-index: 9999;
+}
+
+#storyVideo {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: black;
+}
+
+
+
+.story-header {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  gap: 4px;
+  z-index: 10000;
+}
+.story-header div {
+  flex: 1;
+  height: 4px;
+  background: #555;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.story-header .active {
+  background: #fff;
+}
+#progressBar {
+  display: flex;
+  gap: 4px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 10;
+  height: 4px;
+  justify-content: center;
+}
+
+#progressBar div {
+  background: #999;
+  flex: 1;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+#progressBar .active {
+  background: #fff;
+}
+@keyframes dripEffect {
+  0% { transform: translateY(0px); opacity: 1; }
+  50% { transform: translateY(4px); opacity: 0.7; }
+  100% { transform: translateY(0px); opacity: 1; }
+}
+
+#dripIcon {
+  animation: dripEffect 1.6s ease-in-out infinite;
+}
+
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  gap: 8px;
+}
+
+
+
+
+.action-btn {
+  flex: 1;  /* ياخدوا نفس العرض بالتساوي */
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 0;
+  font-size: 25px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s ease;
+}
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.action-btn span {
+  font-size: 12px;
+}
+
+#storyActionButton {
+  position: absolute;
+  bottom: 150px;
+  left: 50%;
+  transform: translateX(-50%) translateY(30px); /* يبدأ تحت */
+  opacity: 0;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: none;
+  align-items: center;
+  gap: 8px;
+  z-index: 9999;
+  cursor: pointer;
+  transition: transform 2s ease, opacity 2s ease;
+  display: none;
+}
+
+#storyActionButton.show {
+  display: flex;
+  transform: translateX(-50%) translateY(0); /* يصعد لفوق */
+  opacity: 1;
+}
+
+
+/* ✅ الغطاء الداكن */
+.comments-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* تعتيم الخلفية */
+  z-index: 999; /* خلف الشيت */
+  display: none;
+}
+
+.comments-sheet {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
+  z-index: 9999;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+  max-height: 65%;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-card, .reply-card {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.comment-card img, .reply-card img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comment-content {
+  background-color: #f1f1f1;
+  padding: 8px 12px;
+  border-radius: 10px;
+  max-width: 85%;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.reply-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 12px;
+  margin-right: 40px; /* ✅ إزاحة لليمين لتظهر الرد داخل التعليق */
+}
+
+.reply-card img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.reply-card .comment-content {
+  background-color: #efefef;
+  padding: 6px 10px;
+  border-radius: 10px;
+  max-width: 85%;
+  font-size: 13px;
+}

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <script src="https://unpkg.com/i18next@23.4.6/i18next.min.js"></script>
+  <script src="https://unpkg.com/i18next-http-backend@2.2.1/i18nextHttpBackend.min.js"></script>
+  <script src="/static/js/lang.js"></script>
+  <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>إدارة التصنيفات</title>
+  <link rel="stylesheet" href="/static/css/store.css" />
+  <style>
+    body {
+      background-color: #f5f6fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding-bottom: 80px; /* مساحة للفوتر */
+    }
+
+    .tabs-container {
+      max-width: 500px;
+      margin: 60px auto 30px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+    }
+
+    form input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    .save-btn, .location-btn {
+      width: 100%;
+      background-color: #25a18e;
+      color: white;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .save-btn:hover, .location-btn:hover {
+      background-color: #1e8c7a;
+    }
+
+    /* ✅ تنسيق احترافي لأزرار الشعار وكلمة السر */
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .button-group a {
+      flex: 1;
+      background-color: #25a18e;
+      color: white;
+      padding: 14px;
+      font-size: 15px;
+      text-align: center;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+
+    .button-group a:hover {
+      background-color: #1e8c7a;
+    }
+
+    /* ✅ فوتر ثابت بأسفل الشاشة */
+    .footer-buttons {
+      position: fixed;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 15px;
+      z-index: 999;
+    }
+
+    .footer-buttons button {
+      flex: 1;
+      margin: 0 5px;
+      background-color: #25a18e;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .footer-buttons button.logout-btn {
+      background-color: #888;
+    }
+
+    html, body {
+      touch-action: none;
+      overscroll-behavior: none;
+      -ms-touch-action: none;
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    
+
+    }
+  </style>
+</head>
+<body>
+
+  <div class="tabs-container">
+    <h2 data-i18n="manage_info">⚙️ إدارة المعلومات</h2>
+
+    <!-- ✅ أزرار الشعار وكلمة السر -->
+    <div class="button-group">
+      <a href="upload_logo.html" data-i18n="edit_logo">🖼️ تعديل الشعار</a>
+      <a href="change_password.html" data-i18n="change_password">🔑 تغيير كلمة السر</a>
+    </div>
+
+    <!-- ✅ فورم الإعدادات -->
+    <form id="tabsForm">
+      <input type="text" id="phone" data-i18n-placeholder="phone_placeholder" placeholder="📞 رقم الهاتف">
+      <input type="text" id="instagram" data-i18n-placeholder="instagram_placeholder" placeholder="📸 رابط انستغرام">
+      <input type="text" id="whatsapp" data-i18n-placeholder="whatsapp_placeholder" placeholder="💬 رقم واتساب">
+      <input type="url" id="website" data-i18n-placeholder="website_placeholder" placeholder="🌐 الموقع الإلكتروني">
+      <input type="url" id="facebook" data-i18n-placeholder="facebook_placeholder" placeholder="🔵 رابط فيسبوك">
+      <input type="url" id="tiktok" data-i18n-placeholder="tiktok_placeholder" placeholder="🎵 رابط تيك توك">
+      <button type="submit" class="save-btn" data-i18n="save">💾 حفظ</button>
+    </form>
+
+    <button id="setLocationBtn" class="location-btn">📍 تحديد موقعي الحالي</button>
+  </div>
+
+  <!-- ✅ فوتر الأزرار -->
+  <div class="footer-buttons">
+    <button onclick="goBackToStore()" class="back-btn" data-i18n="back_to_store">🏬 العودة للمتجر</button>
+    <button onclick="logout()" class="logout-btn" data-i18n="logout">⎋ تسجيل خروج</button>
+  </div>
+
+  <script src="/static/js/manage_tabs.js"></script>
+  <script>
+    function goBackToStore() {
+      window.location.href = 'store.html';
+    }
+    function logout() {
+      localStorage.clear();
+      window.location.href = 'login.html';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateContent();
+
+      const locationBtn = document.getElementById("setLocationBtn");
+      if (locationBtn) {
+        locationBtn.addEventListener("click", () => {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (position) => {
+              const latitude = position.coords.latitude;
+              const longitude = position.coords.longitude;
+              const userId = localStorage.getItem("user_id");
+
+              const res = await fetch("/save-location", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user_id: userId, latitude, longitude })
+              });
+
+              const data = await res.json();
+              alert(data.message);
+            }, () => {
+              alert("❌ لم يتم السماح باستخدام الموقع");
+            });
+          } else {
+            alert("❌ المتصفح لا يدعم تحديد الموقع الجغرافي");
+          }
+        });
+      }
+    });
+
+    // منع التكبير باللمس
+    document.addEventListener('gesturestart', e => e.preventDefault());
+    document.addEventListener('gesturechange', e => e.preventDefault());
+    document.addEventListener('gestureend', e => e.preventDefault());
+
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+      const now = new Date().getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+  </script>
+</body>
+</html>

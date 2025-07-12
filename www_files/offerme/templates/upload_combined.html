@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>🎥 رفع منتج - OfferME</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+  <style>
+    body {
+      background: #f0f2f5;
+      font-family: 'Almarai', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 480px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 25px 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    }
+    h2 {
+      text-align: center;
+      color: #25a18e;
+      margin-bottom: 25px;
+    }
+    input[type="text"],
+    textarea,
+    input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      background-color: #fafafa;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s ease;
+    }
+    #generateBtn {
+      background-color: #ffc107;
+      color: #000;
+    }
+    #generateBtn:hover {
+      background-color: #ffca2c;
+    }
+    #offermeForm button[type="submit"] {
+      background-color: #28a745;
+      color: white;
+    }
+    #offermeForm button[type="submit"]:hover {
+      background-color: #218838;
+    }
+    #post {
+      background-color: #eef0f3;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+      width: 100%;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    #loadingMessage {
+      display: none;
+      text-align: center;
+      font-size: 16px;
+      color: #25a18e;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    #preview {
+      margin-top: 20px;
+    }
+    #preview img,
+    #preview video {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div id="adminAliSection" style="margin-bottom: 20px; display: none;">
+      <h3>📦 تحميل منتج من AliExpress</h3>
+      <input type="text" id="aliexpressLink" placeholder="ضع رابط منتج من AliExpress">
+      <input type="text" id="affiliateLink" placeholder="🔗 رابط الأفلييت (اختياري)" style="direction: ltr;">
+      <button onclick="fetchAliProduct()" style="background: #007bff; color: white;">🔄 جلب المنتج تلقائيًا</button>
+    </div>
+
+    <h2>📤 رفع منتج جديد</h2>
+    <form id="offermeForm" enctype="multipart/form-data">
+      <input type="text" id="name" placeholder="📝 اسم المنتج" required>
+      <textarea id="description" placeholder="📃 وصف المنتج" required></textarea>
+      <input type="text" id="price" placeholder="💰 السعر (اختياري)" pattern="\d*">
+      <input type="file" id="file" accept="image/*,video/*" required>
+      <input type="hidden" id="hiddenAffiliate" name="affiliate_link">
+
+      <label style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
+        <input type="checkbox" id="enableMontage">
+        <span>🎬 أريد مونتاج تلقائي</span>
+      </label>
+
+      <div id="preview"></div>
+      <button type="button" id="generateBtn">✨ توليد بوست إنستغرام</button>
+      <textarea id="post" placeholder="سيظهر البوست هنا..." style="width:100%; height:100px;"></textarea>
+      <button type="submit">📩 رفع المنتج</button>
+    </form>
+
+    <div id="loadingMessage">🤖✨ جاري استدعاء الذكاء الاصطناعي...</div>
+  </div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("user_id");
+  if (userId) {
+    localStorage.setItem("user_id", userId);  // تخزينه محليًا
+  }
+</script>
+
+<script>
+function goToUpload() {
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("user_id");
+  const visitor = params.get("visitor");
+
+  let url = `${window.location.origin}/upload_combined.html`;
+  const query = [];
+
+  if (userId) query.push(`user_id=${encodeURIComponent(userId)}`);
+  if (visitor) query.push(`visitor=${encodeURIComponent(visitor)}`);
+
+  if (query.length > 0) {
+    url += "?" + query.join("&");
+  }
+
+  // استبدل السطر التالي:
+  // window.location.href = url;
+
+  // بالسطر التالي:
+  location.assign(url);
+}
+
+</script>
+
+  <script>
+    // ✅ عرض قسم الأدمن إذا كان admin
+    document.addEventListener("DOMContentLoaded", () => {
+      const userId = localStorage.getItem("user_id");
+      if (!userId) {
+        localStorage.setItem("user_id", "guest_" + Date.now());
+      }
+      if (userId === "admin") {
+        document.getElementById("adminAliSection").style.display = "block";
+      }
+    });
+
+    async function fetchAliProduct() {
+      const link = document.getElementById("aliexpressLink").value.trim();
+      const affiliate = document.getElementById("affiliateLink").value.trim();
+      if (!link) return alert("⚠️ يرجى إدخال رابط المنتج");
+
+      try {
+        const res = await fetch("/fetch-aliexpress", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ link, affiliate_link: affiliate })
+        });
+        const data = await res.json();
+        if (data.error) return alert("❌ فشل: " + data.error);
+
+        document.getElementById("name").value = data.title_ar || data.title_en || "";
+        document.getElementById("description").value = data.description_ar || data.description_en || "";
+        document.getElementById("price").value = data.price || "";
+        document.getElementById("post").value = data.post || "";
+        document.getElementById("hiddenAffiliate").value = affiliate;
+
+        const preview = document.getElementById("preview");
+        preview.innerHTML = '';
+        if (data.images?.length) {
+          const img = document.createElement("img");
+          img.src = data.images[0];
+          preview.appendChild(img);
+
+          const fileInput = document.getElementById("file");
+          const response = await fetch(data.images[0]);
+          const blob = await response.blob();
+          const file = new File([blob], "product.jpg", { type: blob.type });
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+          fileInput.files = dataTransfer.files;
+        }
+
+        alert("✅ تم جلب المنتج!");
+      } catch (err) {
+        console.error(err);
+        alert("❌ خطأ في الاتصال بالخادم.");
+      }
+    }
+
+    document.getElementById("generateBtn").addEventListener("click", async () => {
+  const name = document.getElementById("name").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const postBox = document.getElementById("post");
+
+  if (!name || !description) return alert("❗ أدخل الاسم والوصف أولاً");
+
+  let loadingMessage = document.getElementById("loadingMessage");
+  loadingMessage.style.display = "block";
+  postBox.value = "";
+
+  try {
+    const res = await fetch("/generate-post", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, description })
+    });
+
+    const text = await res.text();  // 🟡 استقبل الرد كنص عادي
+    loadingMessage.style.display = "none";
+
+    try {
+      const data = JSON.parse(text);  // 🟢 حاول تحويله لـ JSON
+      postBox.value = data?.post || "❌ فشل توليد البوست.";
+    } catch (jsonErr) {
+      console.warn("⚠️ الرد لم يكن JSON:", text);
+      postBox.value = "❌ فشل في قراءة الرد من الخادم.";
+    }
+
+  } catch (err) {
+    console.error("❌ خطأ في الاتصال:", err);
+    loadingMessage.style.display = "none";
+    postBox.value = "❌ خطأ في الاتصال بالخادم.";
+  }
+});
+
+
+    document.getElementById("offermeForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const description = document.getElementById("description").value;
+      const file = document.getElementById("file").files[0];
+      const post = document.getElementById("post").value.trim();
+      const userId = localStorage.getItem("user_id");
+      if (!file || !userId) return alert("⚠️ تأكد من إدخال البيانات والملف");
+
+      const formData = new FormData();
+      formData.append("user_id", userId);
+      formData.append("full_name", localStorage.getItem("full_name") || "زائر");
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("affiliate_link", document.getElementById("affiliateLink").value.trim());
+      formData.append("price", document.getElementById("price").value.trim());
+      formData.append("file", file);
+      formData.append("montage", document.getElementById("enableMontage").checked ? "true" : "false");
+      if (post) formData.append("post", post);
+
+      try {
+        const res = await fetch("https://offermeqa.com/uploader/offerme-upload", {
+
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+        if (data.status === "success") {
+          alert("✅ تم رفع المنتج بنجاح!");
+          ["name", "description", "price", "post", "file"].forEach(id => document.getElementById(id).value = "");
+          document.getElementById("enableMontage").checked = false;
+          document.getElementById("preview").innerHTML = "";
+        } else {
+          alert("❌ فشل: " + data.message);
+        }
+      } catch (err) {
+        alert("❌ فشل الاتصال بالسيرفر");
+        console.error(err);
+      }
+    });
+
+    document.getElementById("file").addEventListener("change", function () {
+      const preview = document.getElementById("preview");
+      preview.innerHTML = "";
+      const file = this.files[0];
+      if (!file) return;
+
+      const url = URL.createObjectURL(file);
+      const type = file.type;
+      if (type.startsWith("image/")) {
+        const img = document.createElement("img");
+        img.src = url;
+        preview.appendChild(img);
+      } else if (type.startsWith("video/")) {
+        const video = document.createElement("video");
+        video.src = url;
+        video.controls = true;
+        video.muted = true;
+        video.autoplay = true;
+        preview.appendChild(video);
+      }
+    });
+  </script>
+</body>
+</html>
