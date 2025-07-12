@@ -334,8 +334,9 @@ const FooterLoader = () => {
   const [html, setHtml] = useState("");
 
   useEffect(() => {
-    fetch("/react-tiktok/static/components/footer.html?v=" + Date.now())
-
+    fetch(
+      `${process.env.PUBLIC_URL}/static/components/footer.html?v=` + Date.now()
+    )
       .then((res) => res.text())
       .then((data) => setHtml(data));
   }, []);
